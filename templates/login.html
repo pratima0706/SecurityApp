@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | Digital Security</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body data-theme="light">
+
+  <!-- 🌗 Floating Theme Toggle (icon only) -->
+  <div class="floating-theme-toggle">
+    <span id="theme-icon" style="font-size: 1.3rem; cursor: pointer;">🌞</span>
+  </div>
+
+  <div class="auth-container">
+    <div class="auth-card glassy">
+
+      <h2>Login to Your Account</h2>
+
+      <form method="POST">
+        <!-- Username or Email -->
+        <div class="input-icon">
+          <span class="icon-left">👤</span>
+          <input type="text" name="email" placeholder="Username or Email" required />
+        </div>
+
+        <!-- Password Field -->
+        <div class="input-icon">
+          <span class="icon-left">🔒</span>
+          <input type="password" id="password" name="password" placeholder="Password" required />
+        </div>
+
+        <!-- Remember Me & Forgot Password -->
+        <div class="login-options spaced-row">
+          <label><input type="checkbox" name="remember"> Remember me</label>
+          <a href="{{ url_for('forgot_password') }}" class="forgot-link">Forgot Password?</a>
+        </div>
+
+        <!-- reCAPTCHA -->
+        <div class="recaptcha-box">
+          <div class="g-recaptcha" data-sitekey="6LeDV1YrAAAAAK6WwaQBbIFeX4c4GHNAOEkvkNT2"></div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn full-btn">Login</button>
+
+        <!-- Sign Up Link -->
+        <p class="switch-auth glow-text">Don't have an account? <a href="{{ url_for('register') }}">Sign Up</a></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- 💡 Theme Toggle Script -->
+  <script>
+    const icon = document.getElementById('theme-icon');
+
+    icon.addEventListener('click', () => {
+      const current = document.body.getAttribute('data-theme');
+      const newMode = current === 'dark' ? 'light' : 'dark';
+      document.body.setAttribute('data-theme', newMode);
+      localStorage.setItem('theme', newMode);
+      icon.textContent = newMode === 'dark' ? '🌙' : '🌞';
+    });
+
+    const saved = localStorage.getItem('theme') || 'light';
+    document.body.setAttribute('data-theme', saved);
+    icon.textContent = saved === 'dark' ? '🌙' : '🌞';
+  </script>
+</body>
+</html>

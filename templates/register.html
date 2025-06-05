@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register | Digital Security</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body data-theme="light">
+  
+  <!-- 🌗 Floating Theme Toggle -->
+  <div class="floating-theme-toggle">
+    <span id="theme-icon" style="font-size: 1.3rem; cursor: pointer;">🌞</span>
+  </div>
+
+  <div class="auth-container">
+    <div class="auth-card glassy">
+      <h2>Create Your Account</h2>
+      <form method="POST">
+        
+        <!-- Username -->
+        <div class="input-icon">
+          <span>👤</span>
+          <input type="text" name="username" placeholder="Username" required />
+        </div>
+
+        <!-- Email -->
+        <div class="input-icon">
+          <span>📧</span>
+          <input type="email" name="email" placeholder="Email" required />
+        </div>
+
+        <!-- Password -->
+        <div class="input-icon">
+          <span>🔒</span>
+          <input type="password" id="password" name="password" placeholder="Password" required autocomplete="new-password" />
+        </div>
+
+        <!-- Auto-Generated Password Suggestion Box -->
+        <div id="suggestion-box" class="suggestion-box" style="display: none;">
+          <div class="suggested-text" id="suggested-password">AbC!234x</div>
+          <div class="popup-actions">
+            <button type="button" class="btn-sm" id="accept-password">Use Password</button>
+            <button type="button" class="btn-sm" id="refresh-password">🔄</button>
+          </div>
+        </div>
+
+        <!-- Password Strength Meter -->
+        <div id="strength-section" style="display: none;">
+          <div class="strength-meter">
+            <div id="strength-bar-bg">
+              <div id="strength-bar"></div>
+            </div>
+            <div><b>Password strength:</b> <span id="strength-text"></span></div>
+            <ul>
+              <li id="length" class="invalid">At least 8 characters</li>
+              <li id="uppercase" class="invalid">Uppercase letter</li>
+              <li id="lowercase" class="invalid">Lowercase letter</li>
+              <li id="number" class="invalid">Number</li>
+              <li id="symbol" class="invalid">Special character</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="input-icon">
+          <span>🔒</span>
+          <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required />
+        </div>
+
+        <!-- Match Status -->
+        <div id="match-status" class="match-feedback"></div>
+
+        <!-- CAPTCHA -->
+        <div class="captcha-block">
+          <img src="data:image/png;base64,{{ captcha_image }}" alt="CAPTCHA" class="captcha-img" id="captcha-img" onclick="refreshCaptcha()" title="Click to refresh">
+          <input type="text" name="captcha" placeholder="Enter CAPTCHA" required />
+        </div>
+
+        <!-- Register Button -->
+        <button type="submit" class="btn full-btn" id="submit-btn" disabled>Register</button>
+
+        <!-- Login Link -->
+        <p class="switch-auth">Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="{{ url_for('static', filename='js/password.js') }}"></script>
+  <script>
+    // 🌙 Theme Toggle with Icon Only
+    const icon = document.getElementById('theme-icon');
+    icon.addEventListener('click', () => {
+      const mode = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.body.setAttribute('data-theme', mode);
+      localStorage.setItem('theme', mode);
+      icon.textContent = mode === 'dark' ? '🌙' : '🌞';
+    });
+
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.body.setAttribute('data-theme', savedTheme);
+    icon.textContent = savedTheme === 'dark' ? '🌙' : '🌞';
+
+    // CAPTCHA Refresh
+    function refreshCaptcha() {
+      fetch('/refresh_captcha')
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById("captcha-img").src = "data:image/png;base64," + data.captcha_image;
+        });
+    }
+  </script>
+</body>
+</html>

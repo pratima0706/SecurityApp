@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile | Digital Security</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body data-theme="light">
+  <div class="profile-container">
+    <div class="profile-card">
+
+      <!-- 🌗 Theme Toggle -->
+      <div class="theme-toggle top-right">
+        <span id="theme-label">🌞 Light Mode</span>
+        <label class="switch">
+          <input type="checkbox" id="themeToggle">
+          <span class="slider round"></span>
+        </label>
+      </div>
+
+      <h2>My Profile</h2>
+
+      <form method="POST">
+        <!-- Username -->
+        <div class="input-icon">
+          <span>👤</span>
+          <input type="text" name="username" value="{{ current_user.username }}" required />
+        </div>
+
+        <!-- Email -->
+        <div class="input-icon">
+          <span>📧</span>
+          <input type="email" name="email" value="{{ current_user.email }}" required />
+        </div>
+
+        <!-- 🔐 Change Password Section -->
+        <h3>Change Password</h3>
+
+        <div class="input-icon">
+          <span>🔑</span>
+          <input type="password" id="new_password" name="new_password" placeholder="New password" />
+          <label><input type="checkbox" onclick="togglePassword('new_password')"> Show</label>
+        </div>
+
+        <div class="input-icon">
+          <span>🔑</span>
+          <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm password" />
+          <label><input type="checkbox" onclick="togglePassword('confirm_password')"> Show</label>
+        </div>
+
+        <!-- Password Strength -->
+        <div class="strength-meter">
+          <p><strong>Password Strength:</strong> <span id="strength-text">None</span></p>
+          <ul id="criteria">
+            <li id="length" class="invalid">Minimum 8 characters</li>
+            <li id="uppercase" class="invalid">At least one uppercase</li>
+            <li id="lowercase" class="invalid">At least one lowercase</li>
+            <li id="number" class="invalid">At least one number</li>
+            <li id="symbol" class="invalid">At least one symbol</li>
+          </ul>
+        </div>
+
+        <button type="submit" class="btn primary full-btn">Update Profile</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Theme + Password JS -->
+  <script>
+    const toggle = document.getElementById('themeToggle');
+    const label = document.getElementById('theme-label');
+
+    function applyTheme(mode) {
+      document.body.setAttribute('data-theme', mode);
+      localStorage.setItem('theme', mode);
+      label.textContent = mode === 'dark' ? "🌚 Dark Mode" : "🌞 Light Mode";
+      toggle.checked = mode === 'dark';
+    }
+
+    toggle.addEventListener('change', () => {
+      const mode = toggle.checked ? 'dark' : 'light';
+      applyTheme(mode);
+    });
+
+    const saved = localStorage.getItem('theme') || 'light';
+    applyTheme(saved);
+
+    function togglePassword(id) {
+      const input = document.getElementById(id);
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
+
+    // Password Strength (JS loaded separately or inline later)
+  </script>
+</body>
+</html>

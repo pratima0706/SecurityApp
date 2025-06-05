@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home | Digital Security</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body data-theme="light">
+  <div class="home-container">
+    <div class="dashboard-card">
+
+      <!-- 🌗 Theme Toggle -->
+      <div class="theme-toggle top-right">
+        <span id="theme-label">🌞 Light Mode</span>
+        <label class="switch">
+          <input type="checkbox" id="themeToggle">
+          <span class="slider round"></span>
+        </label>
+      </div>
+
+      <h1>Welcome, {{ current_user.username }} 👋</h1>
+      <p>You are securely logged in. Explore your dashboard below.</p>
+
+      <div class="dashboard-links">
+        <a href="{{ url_for('profile') }}" class="btn dashboard-btn">Edit Profile</a>
+        <a href="{{ url_for('logout') }}" class="btn dashboard-btn">Logout</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const toggle = document.getElementById('themeToggle');
+    const label = document.getElementById('theme-label');
+
+    function applyTheme(mode) {
+      document.body.setAttribute('data-theme', mode);
+      localStorage.setItem('theme', mode);
+      label.textContent = mode === 'dark' ? "🌚 Dark Mode" : "🌞 Light Mode";
+      toggle.checked = mode === 'dark';
+    }
+
+    toggle.addEventListener('change', () => {
+      const mode = toggle.checked ? 'dark' : 'light';
+      applyTheme(mode);
+    });
+
+    const saved = localStorage.getItem('theme') || 'light';
+    applyTheme(saved);
+  </script>
+</body>
+</html>
