@@ -3,70 +3,218 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Profile | Digital Security</title>
+  <title>Security Profile | Digital Security</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body data-theme="light">
-  <div class="profile-container">
-    <div class="profile-card">
+  <div class="dashboard-container">
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <h2>🔐 Digital Security</h2>
+      </div>
+      <ul class="nav-links">
+        <li>
+          <a href="{{ url_for('home') }}">
+            <i class="fas fa-home"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li class="active">
+          <a href="{{ url_for('profile') }}">
+            <i class="fas fa-user-shield"></i>
+            <span>Security Profile</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="security-scan">
+            <i class="fas fa-shield-alt"></i>
+            <span>Security Scan</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="password-manager">
+            <i class="fas fa-key"></i>
+            <span>Password Manager</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="activity-log">
+            <i class="fas fa-history"></i>
+            <span>Activity Log</span>
+          </a>
+        </li>
+      </ul>
+      <div class="sidebar-footer">
+        <a href="{{ url_for('logout') }}" class="logout-btn">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Logout</span>
+        </a>
+      </div>
+    </nav>
 
-      <!-- 🌗 Theme Toggle -->
-      <div class="theme-toggle top-right">
-        <span id="theme-label">🌞 Light Mode</span>
-        <label class="switch">
-          <input type="checkbox" id="themeToggle">
-          <span class="slider round"></span>
-        </label>
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Bar -->
+      <div class="top-bar">
+        <div class="welcome-text">
+          <h1>Security Profile</h1>
+          <p>Manage your account security settings</p>
+        </div>
+        <div class="top-bar-actions">
+          <!-- 🌗 Theme Toggle -->
+          <div class="theme-toggle">
+            <span id="theme-label">🌞 Light Mode</span>
+            <label class="switch">
+              <input type="checkbox" id="themeToggle">
+              <span class="slider round"></span>
+            </label>
+          </div>
+          <div class="user-menu">
+            <img src="https://ui-avatars.com/api/?name={{ current_user.username }}&background=6c63ff&color=fff" alt="Profile" class="avatar">
+            <span>{{ current_user.username }}</span>
+          </div>
+        </div>
       </div>
 
-      <h2>My Profile</h2>
-
-      <form method="POST">
-        <!-- Username -->
-        <div class="input-icon">
-          <span>👤</span>
-          <input type="text" name="username" value="{{ current_user.username }}" required />
+      <!-- Profile Content -->
+      <div class="profile-grid">
+        <!-- Profile Information Card -->
+        <div class="dashboard-card profile-info">
+          <div class="card-header">
+            <h3>Profile Information</h3>
+            <i class="fas fa-user"></i>
+          </div>
+          <form method="POST" class="profile-form">
+            <div class="form-group">
+              <label><i class="fas fa-user"></i> Username</label>
+              <input type="text" name="username" value="{{ current_user.username }}" required />
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-envelope"></i> Email</label>
+              <input type="email" name="email" value="{{ current_user.email }}" required />
+            </div>
+            <button type="submit" class="btn primary">Update Profile</button>
+          </form>
         </div>
 
-        <!-- Email -->
-        <div class="input-icon">
-          <span>📧</span>
-          <input type="email" name="email" value="{{ current_user.email }}" required />
+        <!-- Security Settings Card -->
+        <div class="dashboard-card security-settings">
+          <div class="card-header">
+            <h3>Security Settings</h3>
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <div class="settings-list">
+            <div class="setting-item">
+              <div class="setting-info">
+                <h4>Two-Factor Authentication</h4>
+                <p>Add an extra layer of security to your account</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" disabled>
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <div class="setting-item">
+              <div class="setting-info">
+                <h4>Login Notifications</h4>
+                <p>Get notified when someone logs into your account</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <div class="setting-item">
+              <div class="setting-info">
+                <h4>Session Management</h4>
+                <p>Manage your active sessions</p>
+              </div>
+              <button class="btn secondary">View Sessions</button>
+            </div>
+          </div>
         </div>
 
-        <!-- 🔐 Change Password Section -->
-        <h3>Change Password</h3>
+        <!-- Password Management Card -->
+        <div class="dashboard-card password-management">
+          <div class="card-header">
+            <h3>Password Management</h3>
+            <i class="fas fa-key"></i>
+          </div>
+          <form method="POST" class="password-form">
+            <div class="form-group">
+              <label><i class="fas fa-lock"></i> New Password</label>
+              <input type="password" id="new_password" name="new_password" placeholder="Enter new password" />
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-lock"></i> Confirm Password</label>
+              <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm new password" />
+            </div>
 
-        <div class="input-icon">
-          <span>🔑</span>
-          <input type="password" id="new_password" name="new_password" placeholder="New password" />
-          <label><input type="checkbox" onclick="togglePassword('new_password')"> Show</label>
+            <!-- Password Strength Meter -->
+            <div class="strength-meter">
+              <div class="strength-bar-bg">
+                <div class="strength-bar"></div>
+              </div>
+              <div class="strength-text">Password strength: <span id="strength-text">None</span></div>
+              <ul class="strength-criteria">
+                <li id="length" class="invalid">At least 8 characters</li>
+                <li id="uppercase" class="invalid">Uppercase letter</li>
+                <li id="lowercase" class="invalid">Lowercase letter</li>
+                <li id="number" class="invalid">Number</li>
+                <li id="symbol" class="invalid">Special character</li>
+              </ul>
+            </div>
+
+            <button type="submit" class="btn primary">Update Password</button>
+          </form>
         </div>
 
-        <div class="input-icon">
-          <span>🔑</span>
-          <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm password" />
-          <label><input type="checkbox" onclick="togglePassword('confirm_password')"> Show</label>
+        <!-- Account Activity Card -->
+        <div class="dashboard-card account-activity">
+          <div class="card-header">
+            <h3>Recent Account Activity</h3>
+            <i class="fas fa-history"></i>
+          </div>
+          <div class="activity-timeline">
+            <div class="timeline-item">
+              <div class="timeline-icon">
+                <i class="fas fa-sign-in-alt"></i>
+              </div>
+              <div class="timeline-content">
+                <h4>Login</h4>
+                <p>Successful login from Chrome on Windows</p>
+                <span class="timeline-date">Today, 10:30 AM</span>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-icon">
+                <i class="fas fa-key"></i>
+              </div>
+              <div class="timeline-content">
+                <h4>Password Change</h4>
+                <p>Password was updated</p>
+                <span class="timeline-date">2 days ago</span>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div class="timeline-content">
+                <h4>Email Verification</h4>
+                <p>Email address was verified</p>
+                <span class="timeline-date">1 week ago</span>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <!-- Password Strength -->
-        <div class="strength-meter">
-          <p><strong>Password Strength:</strong> <span id="strength-text">None</span></p>
-          <ul id="criteria">
-            <li id="length" class="invalid">Minimum 8 characters</li>
-            <li id="uppercase" class="invalid">At least one uppercase</li>
-            <li id="lowercase" class="invalid">At least one lowercase</li>
-            <li id="number" class="invalid">At least one number</li>
-            <li id="symbol" class="invalid">At least one symbol</li>
-          </ul>
-        </div>
-
-        <button type="submit" class="btn primary full-btn">Update Profile</button>
-      </form>
-    </div>
+      </div>
+    </main>
   </div>
 
-  <!-- Theme + Password JS -->
+  <!-- Theme Toggle Script -->
   <script>
     const toggle = document.getElementById('themeToggle');
     const label = document.getElementById('theme-label');
@@ -85,13 +233,9 @@
 
     const saved = localStorage.getItem('theme') || 'light';
     applyTheme(saved);
-
-    function togglePassword(id) {
-      const input = document.getElementById(id);
-      input.type = input.type === 'password' ? 'text' : 'password';
-    }
-
-    // Password Strength (JS loaded separately or inline later)
   </script>
+
+  <!-- Password Strength Script -->
+  <script src="{{ url_for('static', filename='js/password.js') }}"></script>
 </body>
 </html>

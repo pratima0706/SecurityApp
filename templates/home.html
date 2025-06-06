@@ -5,25 +5,52 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Home | Digital Security</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body data-theme="light">
   <div class="home-container">
     <div class="dashboard-card">
 
-      <!-- 🌗 Theme Toggle -->
-      <div class="theme-toggle top-right">
-        <span id="theme-label">🌞 Light Mode</span>
-        <label class="switch">
-          <input type="checkbox" id="themeToggle">
-          <span class="slider round"></span>
-        </label>
+      <!-- Header with Profile and Theme Toggle -->
+      <div class="dashboard-header">
+        <div class="welcome-section">
+          <h1>Welcome, {{ current_user.username }} 👋</h1>
+          <p>You are securely logged in. Explore your dashboard below.</p>
+        </div>
+        <div class="user-controls">
+          <!-- Profile Link and Image -->
+          <a href="{{ url_for('profile') }}" class="profile-link">
+            <img src="{{ url_for('static', filename='images/default_profile.png') }}" alt="Profile Image" class="profile-img">
+            <span>Profile</span>
+          </a>
+
+          <!-- 🌗 Theme Toggle -->
+          <div class="theme-toggle">
+            <span id="theme-label">🌞 Light Mode</span>
+            <label class="switch">
+              <input type="checkbox" id="themeToggle">
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
       </div>
 
-      <h1>Welcome, {{ current_user.username }} 👋</h1>
-      <p>You are securely logged in. Explore your dashboard below.</p>
+      <hr class="divider">
 
+      <!-- Dashboard Content Area (placeholder) -->
+      <div class="dashboard-content">
+        <h3>Security Overview</h3>
+        <p>This is where you can add various security metrics, recent activity logs, etc.</p>
+        <!-- Example: Link to security logs (if you have one) -->
+        <!-- <a href="{{ url_for('security_logs') }}" class="btn dashboard-btn">View Security Logs</a> -->
+      </div>
+
+      <hr class="divider">
+
+      <!-- Dashboard Links -->
       <div class="dashboard-links">
-        <a href="{{ url_for('profile') }}" class="btn dashboard-btn">Edit Profile</a>
+        <a href="{{ url_for('profile') }}" class="btn dashboard-btn">Manage Profile</a>
+        <!-- Add more dashboard links here -->
         <a href="{{ url_for('logout') }}" class="btn dashboard-btn">Logout</a>
       </div>
     </div>
