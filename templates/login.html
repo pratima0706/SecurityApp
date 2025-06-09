@@ -5,117 +5,82 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login | Digital Security</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <script src="https://www.google.com/recaptcha/api.js?render={{ app.config['RECAPTCHA_PUBLIC_KEY'] }}"></script>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body data-theme="light">
 
-  <!-- 🌗 Floating Theme Toggle (icon only) -->
+  <!-- 🌗 Floating Theme Toggle -->
   <div class="floating-theme-toggle">
     <span id="theme-icon">🌞</span>
   </div>
 
   <div class="auth-container">
     <div class="auth-card glassy">
+      <h2>Welcome Back</h2>
+      <p class="text-center">
+        Secure your digital life with us
+      </p>
 
-      <h2>Login to Your Account</h2>
+      <!-- Flash Messages -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
 
+      <!-- Email Verification Status -->
+      {% if current_user.is_authenticated and not current_user.email_verified %}
+        <div class="alert alert-warning">
+          <strong>Email Not Verified!</strong> Please check your email for the verification link.
+          <form method="POST" action="{{ url_for('resend_verification') }}" style="margin-top: 10px;">
+            <button type="submit" class="btn btn-sm">Resend Verification Email</button>
+          </form>
+        </div>
+      {% endif %}
 
-      <form method="POST" id="login-form">
-        <!-- Username or Email -->
+      <form method="POST">
+        <!-- Email/Username -->
         <div class="input-icon">
-          <span class="icon-left">👤</span>
-          <input type="text" name="email" placeholder="Username or Email" required />
+          <span>👤</span>
+          <input type="text" name="email" placeholder="Email or Username" required />
         </div>
 
-        <!-- Password Field -->
+        <!-- Password -->
         <div class="input-icon">
-          <span class="icon-left">🔒</span>
-          <input type="password" id="login-password" name="password" placeholder="Password" autocomplete="off"/>
+          <span>🔒</span>
+          <input type="password" name="password" placeholder="Password" required />
         </div>
 
-        <!-- Remember Me & Forgot Password -->
-        <div class="login-options">
-          <label><input type="checkbox" name="remember"> Remember me</label>
-          <a href="{{ url_for('forgot_password') }}" class="forgot-link">Forgot Password?</a>
-        </div>
+        <!-- reCAPTCHA -->
+        <div class="g-recaptcha" data-sitekey="6Lfrj1crAAAAAFAQokAG3WXwmej85mE21ByyoMoW"></div>
 
         <!-- Submit Button -->
-        <button type="submit" class="btn full-btn g-recaptcha"
-                data-sitekey="{{ app.config['6LeJcFcrAAAAAN9X34_z2ZLfVKB19nCEVepUKPdV'] }}"
-                data-callback='onSubmit'
-                data-action='submit'>Login</button>
+        <button type="submit" class="btn full-btn">Login</button>
 
-        <!-- Sign Up Link -->
-        <p class="switch-auth">Don't have an account? <a href="{{ url_for('register') }}">Sign Up</a></p>
+        <!-- Forgot Password & Sign Up -->
+        <div class="auth-links">
+          <a href="{{ url_for('forgot_password') }}">Forgot Password?</a>
+          <a href="{{ url_for('register') }}">Create Account</a>
+        </div>
       </form>
     </div>
   </div>
 
-  <!-- 💡 Theme Toggle Script -->
+  <!-- Theme Toggle Script -->
   <script>
     const icon = document.getElementById('theme-icon');
-
     icon.addEventListener('click', () => {
-      const current = document.body.getAttribute('data-theme');
-      const newMode = current === 'dark' ? 'light' : 'dark';
-      document.body.setAttribute('data-theme', newMode);
-      localStorage.setItem('theme', newMode);
-      icon.textContent = newMode === 'dark' ? '🌙' : '🌞';
+      const mode = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.body.setAttribute('data-theme', mode);
+      localStorage.setItem('theme', mode);
+      icon.textContent = mode === 'dark' ? '🌙' : '🌞';
     });
 
-    const saved = localStorage.getItem('theme') || 'light';
-    document.body.setAttribute('data-theme', saved);
-    icon.textContent = saved === 'dark' ? '🌙' : '🌞';
-  </script>
-
-  <script>
-    // reCAPTCHA v3 Integration
-    function onSubmit(token) {
-      document.getElementById("login-form").submit();
-    }
-  </script>
-
-  <script src="{{ url_for('static', filename='js/password.js') }}"></script>
-
-  <!-- Simple Pop-up/Modal Structure -->
-  <div id="message-popup" class="popup-container">
-    <div class="popup-content">
-      <span class="close-button">&times;</span>
-      <p id="popup-message-text"></p>
-    </div>
-  </div>
-
-  <script>
-    // Script to handle flashed messages and display pop-up
-    document.addEventListener('DOMContentLoaded', () => {
-      const popup = document.getElementById('message-popup');
-      const popupMessageText = document.getElementById('popup-message-text');
-      const closeButton = document.querySelector('.popup-container .close-button');
-
-      // Capture flashed messages from Flask
-      {% with messages = get_flashed_messages() %}
-        {% if messages %}
-          const messages = JSON.parse('{{ messages | tojson | safe }}');
-          // Display the first message in the pop-up
-          if (messages.length > 0) {
-            popupMessageText.textContent = messages[0];
-            popup.style.display = 'flex'; // Show the pop-up
-          }
-        {% endif %}
-      {% endwith %}
-
-      // Close the pop-up when the close button is clicked
-      closeButton.addEventListener('click', () => {
-        popup.style.display = 'none';
-      });
-
-      // Close the pop-up if clicked outside the content
-      window.addEventListener('click', (event) => {
-        if (event.target === popup) {
-          popup.style.display = 'none';
-        }
-      });
-    });
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.body.setAttribute('data-theme', savedTheme);
+    icon.textContent = savedTheme === 'dark' ? '🌙' : '🌞';
   </script>
 </body>
 </html>

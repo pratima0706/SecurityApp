@@ -564,45 +564,49 @@ input:checked + .slider:before {
 .user-controls {
     display: flex;
     align-items: center;
-    gap: 20px; /* Space between profile and theme toggle */
+    gap: 1rem;
 }
 
 .profile-link {
     display: flex;
     align-items: center;
+    gap: 0.5rem;
     text-decoration: none;
-    color: var(--text-primary); /* Adjust color for dark/light theme */
-    transition: color 0.3s ease;
+    color: var(--text-light);
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
 }
 
-[data-theme="dark"] .profile-link {
+body[data-theme="dark"] .profile-link {
      color: var(--text-dark);
 }
 
 .profile-link:hover {
-    opacity: 0.8;
+    background: rgba(108, 99, 255, 0.1);
 }
 
 .profile-img {
-    width: 40px; /* Adjust size as needed */
-    height: 40px; /* Adjust size as needed */
-    border-radius: 50%; /* Make it circular */
-    margin-right: 10px; /* Space between image and text */
-    object-fit: cover; /* Ensure image covers the area without distortion */
-    border: 2px solid var(--primary-color); /* Optional: add a border */
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
-.profile-link span {
-    font-weight: 600;
+.logout-btn {
+    padding: 0.5rem 1rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
 }
 
-.theme-toggle {
-    /* Ensure theme toggle styles are appropriate for placement in header */
-    position: static; /* Override absolute positioning if present */
-    top: auto;
-    right: auto;
-    margin-bottom: 0; /* Remove margin if present */
+.logout-btn:hover {
+    opacity: 0.9;
 }
+
 
 .dashboard-content {
     margin-top: 20px;
@@ -624,4 +628,688 @@ input:checked + .slider:before {
     height: 1px;
     background-color: rgba(128, 128, 128, 0.2);
     margin: 20px 0;
+}
+
+/* Auth Links */
+.auth-links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  font-size: 0.9rem;
+}
+
+.auth-links a {
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.auth-links a:hover {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+/* Alert Messages */
+.alert {
+  padding: 12px 15px;
+  margin: 15px 0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  animation: slideDown 0.3s ease-out;
+}
+
+.alert-success {
+  background-color: rgba(76, 175, 80, 0.1);
+  border: 1px solid rgba(76, 175, 80, 0.2);
+  color: #2e7d32;
+}
+
+.alert-danger {
+  background-color: rgba(244, 67, 54, 0.1);
+  border: 1px solid rgba(244, 67, 54, 0.2);
+  color: #c62828;
+}
+
+.alert-warning {
+  background-color: rgba(255, 152, 0, 0.1);
+  border: 1px solid rgba(255, 152, 0, 0.2);
+  color: #ef6c00;
+}
+
+.alert-info {
+  background-color: rgba(33, 150, 243, 0.1);
+  border: 1px solid rgba(33, 150, 243, 0.2);
+  color: #1565c0;
+}
+
+[data-theme="dark"] .alert-success {
+  background-color: rgba(76, 175, 80, 0.15);
+  border-color: rgba(76, 175, 80, 0.3);
+  color: #81c784;
+}
+
+[data-theme="dark"] .alert-danger {
+  background-color: rgba(244, 67, 54, 0.15);
+  border-color: rgba(244, 67, 54, 0.3);
+  color: #e57373;
+}
+
+[data-theme="dark"] .alert-warning {
+  background-color: rgba(255, 152, 0, 0.15);
+  border-color: rgba(255, 152, 0, 0.3);
+  color: #ffb74d;
+}
+
+[data-theme="dark"] .alert-info {
+  background-color: rgba(33, 150, 243, 0.15);
+  border-color: rgba(33, 150, 243, 0.3);
+  color: #64b5f6;
+}
+
+/* Profile Page Styles */
+.profile-info {
+  margin-top: 20px;
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.profile-header .profile-img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+  border: 3px solid var(--primary-color);
+}
+
+.profile-header h3 {
+  margin: 10px 0 5px;
+  color: var(--text-light);
+}
+
+.profile-header p {
+  color: #666;
+  margin: 0;
+}
+
+[data-theme="dark"] .profile-header p {
+  color: #aaa;
+}
+
+.profile-details {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-item label {
+  font-weight: 600;
+  color: var(--text-light);
+}
+
+.detail-item span {
+  color: #666;
+}
+
+[data-theme="dark"] .detail-item label {
+  color: var(--text-dark);
+}
+
+[data-theme="dark"] .detail-item span {
+  color: #aaa;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.profile-actions .btn {
+  min-width: 120px;
+}
+
+/* Add styles below for the new Home Page Card Grid */
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+  gap: 20px; /* Space between cards */
+  padding: 20px; /* Padding around the grid */
+  max-width: 1200px; /* Max width for the grid container */
+  margin: 20px auto; /* Center the grid */
+}
+
+.dashboard-card-item {
+  background: var(--card-bg-light); /* Use theme variable for background */
+  border-radius: 10px; /* Rounded corners */
+  padding: 20px; /* Inner padding */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  display: flex; /* Use flexbox for content alignment */
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.dashboard-card-item:hover {
+  transform: translateY(-5px); /* Lift effect on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dashboard-card-item h3 {
+  margin-top: 0;
+  color: var(--text-light); /* Use theme variable for text color */
+}
+
+.dashboard-card-item p {
+  font-size: 0.95em;
+  color: #555; /* Default text color */
+  margin-bottom: 15px;
+}
+
+body[data-theme="dark"] .dashboard-card-item {
+    background: var(--card-bg-dark); /* Dark theme card background */
+    color: var(--text-dark); /* Dark theme text */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Dark theme shadow */
+}
+
+body[data-theme="dark"] .dashboard-card-item h3 {
+    color: var(--text-dark); /* Ensure headings are visible in dark mode */
+}
+
+body[data-theme="dark"] .dashboard-card-item p {
+    color: #ccc; /* Lighter text for readability in dark mode */
+}
+
+.dashboard-card-item .btn {
+    margin-top: auto; /* Push button to the bottom */
+    align-self: flex-start; /* Align button to the start */
+}
+
+
+/* Add styles below for the new Profile Page Layout */
+
+.profile-container-new {
+    min-height: 100vh;
+    background: var(--bg-light);
+    padding: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+body[data-theme="dark"] .profile-container-new {
+    background: var(--bg-dark);
+}
+
+/* Profile Header New */
+.profile-header-new {
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.profile-header-new h2 {
+    font-size: 24px;
+    margin: 20px 0;
+    color: var(--text-light);
+}
+
+body[data-theme="dark"] .profile-header-new h2 {
+    color: var(--text-dark);
+}
+
+/* Back Arrow */
+.back-arrow {
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--text-light);
+    font-size: 1.2rem;
+    padding: 10px;
+    text-decoration: none;
+}
+
+body[data-theme="dark"] .back-arrow {
+    color: var(--text-dark);
+}
+
+/* Profile Picture Area */
+.profile-picture-area {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 20px;
+    cursor: pointer;
+    border-radius: 50%; /* Ensure circular clipping for the image */
+    overflow: hidden; /* Hide parts of the image outside the circle */
+}
+
+.profile-picture-area img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure the image covers the area without distortion */
+}
+
+.profile-icon-large {
+    /* This class was likely used for the placeholder icon. We'll keep it but it might not be needed if an image is used */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(108, 99, 255, 0.1); /* Placeholder background */
+    border-radius: 50%;
+    font-size: 3rem;
+    color: var(--primary-color);
+}
+
+body[data-theme="dark"] .profile-icon-large {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-dark);
+}
+
+.camera-icon-overlay {
+    position: absolute;
+    bottom: 5px; /* Adjusted position */
+    right: 5px; /* Adjusted position */
+    width: 30px; /* Adjusted size */
+    height: 30px; /* Adjusted size */
+    background: var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    z-index: 2; /* Ensure it's above the image */
+}
+
+.camera-icon-overlay:hover {
+    transform: scale(1.1);
+}
+
+.camera-icon-overlay i {
+    font-size: 1rem; /* Adjusted size */
+}
+
+/* Profile Menu */
+.profile-menu {
+    width: 100%;
+    max-width: 400px;
+    background: var(--card-bg-light); /* Use theme variable */
+    border-radius: 12px; /* Match image */
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Subtle shadow */
+}
+
+body[data-theme="dark"] .profile-menu {
+    background: var(--card-bg-dark); /* Use theme variable */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2); /* Subtle shadow for dark theme */
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px; /* Adjust padding to match image spacing */
+    text-decoration: none;
+    color: var(--text-light); /* Use theme variable */
+    border-bottom: 1px solid rgba(0,0,0,0.1); /* Subtle separator */
+    transition: background-color 0.3s ease;
+}
+
+body[data-theme="dark"] .menu-item {
+     color: var(--text-dark); /* Use theme variable */
+     border-bottom-color: rgba(255,255,255,0.1); /* Subtle separator for dark theme */
+}
+
+.menu-item:last-child {
+    border-bottom: none;
+}
+
+.menu-item:hover {
+    background: rgba(108, 99, 255, 0.05); /* Lighter hover effect */
+}
+
+body[data-theme="dark"] .menu-item:hover {
+    background: rgba(255,255,255,0.05); /* Lighter hover effect for dark theme */
+}
+
+.menu-icon {
+    width: 24px; /* Icon size */
+    margin-right: 15px; /* Space between icon and text */
+    color: var(--primary-color); /* Icon color */
+    text-align: center; /* Center icon if needed */
+}
+
+body[data-theme="dark"] .menu-icon {
+     color: var(--text-dark); /* Icon color for dark theme */
+}
+
+.menu-text {
+    flex: 1;
+    font-size: 1rem;
+}
+
+.menu-arrow {
+    color: #999; /* Arrow color */
+    font-size: 0.9rem;
+}
+
+body[data-theme="dark"] .menu-arrow {
+     color: #666; /* Arrow color for dark theme */
+}
+
+/* Style for the new Change Password menu item */
+/* .menu-item.change-password-item .menu-icon { */
+    /* Add specific icon style if needed, e.g., a lock icon */
+/* } */
+
+/* Theme Toggle */
+.theme-toggle.icon-only {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--card-bg-light);
+    padding: 12px;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+body[data-theme="dark"] .theme-toggle.icon-only {
+    background: var(--card-bg-dark);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.theme-toggle.icon-only:hover {
+    transform: scale(1.1);
+}
+
+/* Image Upload Options */
+.image-upload-options {
+  position: absolute;
+  /* Positioning relative to the profile-picture-area */
+  bottom: -10px; /* Adjusted to be slightly below the camera icon */
+  right: -10px; /* Adjusted to be slightly to the right of the camera icon */
+  transform: translateY(100%); /* Ensure it drops down from the camera icon */
+  background: var(--card-bg-light);
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  padding: 10px;
+  display: none; /* Hidden by default */
+  z-index: 1000;
+  width: 180px; /* Adjusted width as needed */
+  transition: all 0.3s ease-out;
+  transform-origin: top right;
+}
+
+body[data-theme="dark"] .image-upload-options {
+  background: var(--card-bg-dark);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.image-upload-options.show {
+  display: block;
+  transform: translateY(0%); /* Show when active */
+  bottom: 0; /* Align to bottom of profile-picture-area */
+  right: 0; /* Align to right of profile-picture-area */
+}
+
+.image-upload-options button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 8px 10px; /* Adjusted padding */
+  margin: 3px 0; /* Adjusted margin */
+  border: none;
+  background: none;
+  color: var(--text-light);
+  cursor: pointer;
+  text-align: left;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+body[data-theme="dark"] .image-upload-options button {
+  color: var(--text-dark);
+}
+
+.image-upload-options button:hover {
+  background: rgba(108, 99, 255, 0.1);
+}
+
+.image-upload-options button i {
+  margin-right: 8px; /* Adjusted margin */
+  color: var(--primary-color);
+}
+
+/* Hide the older navbar structures */
+.top-navbar, .simple-top-navbar {
+    display: none;
+}
+
+/* Adjust the main content padding to not be hidden by the fixed navbar */
+.home-container .dashboard-grid {
+    padding-top: 20px; /* Add space above the grid */
+}
+
+/* Top Navigation Bar Styles */
+.top-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: var(--card-bg-light);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+body[data-theme="dark"] .top-navbar {
+  background: var(--card-bg-dark);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.navbar-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-light);
+}
+
+body[data-theme="dark"] .navbar-title {
+  color: var(--text-dark);
+}
+
+.navbar-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.navbar-links a {
+  color: var(--text-light);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+body[data-theme="dark"] .navbar-links a {
+  color: var(--text-dark);
+}
+
+.navbar-links a:hover {
+  background: rgba(108, 99, 255, 0.1);
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar-icons {
+  display: flex;
+  gap: 1rem;
+}
+
+.user-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.theme-toggle {
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.theme-toggle:hover {
+  background: rgba(108, 99, 255, 0.1);
+}
+
+.profile-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: var(--text-light);
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+body[data-theme="dark"] .profile-link {
+  color: var(--text-dark);
+}
+
+.profile-link:hover {
+  background: rgba(108, 99, 255, 0.1);
+}
+
+.profile-icon {
+  font-size: 1.2rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(108, 99, 255, 0.1);
+  border-radius: 50%;
+  color: var(--primary-color);
+  line-height: 1; /* Add this to ensure vertical centering */
+}
+
+body[data-theme="dark"] .profile-icon {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-dark);
+}
+
+.logout-btn {
+  padding: 0.5rem 1rem;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.logout-btn:hover {
+  opacity: 0.9;
+}
+
+/* Adjust main content to account for fixed navbar */
+.home-container {
+  padding-top: 80px;
+}
+
+/* Specific styles for Change Password page */
+.change-password-page .input-icon .eye-icon {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.change-password-page .input-icon .eye-icon.visible {
+    visibility: visible;
+    opacity: 1;
+}
+
+.change-password-page .floating-theme-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 999;
+}
+
+.change-password-page .strength-meter {
+    opacity: 0;
+    visibility: hidden; /* Ensure it's hidden initially */
+    max-height: 0; /* Initially hidden height */
+    overflow: hidden; /* Hide overflow during transition */
+    transition: opacity 0.3s ease-in-out, max-height 0.3s ease-in-out, padding 0.3s ease-in-out; /* Add transitions for max-height and padding */
+    padding-top: 0; /* Remove padding when hidden */
+    padding-bottom: 0; /* Remove padding when hidden */
+}
+
+.change-password-page .strength-meter.visible {
+    opacity: 1 !important; /* Use !important for troubleshooting */
+    visibility: visible !important; /* Use !important for troubleshooting */
+    max-height: 150px !important; /* Use !important for troubleshooting */
+    padding-top: 10px; /* Restore original padding or adjust as needed */
+    padding-bottom: 10px; /* Restore original padding or adjust as needed */
+}
+
+/* Align lock icons in input fields */
+.input-icon .icon-left {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2; /* Ensure icon is above input */
+    color: #888; /* Match the color of other icons if desired, or use a theme variable */
+}
+
+body[data-theme="dark"] .input-icon .icon-left {
+    color: #aaa; /* Adjust color for dark theme if needed */
 }

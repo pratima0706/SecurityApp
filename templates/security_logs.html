@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Logs | Digital Security</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body data-theme="light">
+    <div class="container">
+        <div class="dashboard-card">
+            <div class="dashboard-header">
+                <h1>Security Logs</h1>
+                <a href="{{ url_for('home') }}" class="btn">Back to Dashboard</a>
+            </div>
+
+            <hr class="divider">
+
+            <div class="logs-container">
+                {% if logs %}
+                    <table class="logs-table">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Event Type</th>
+                                <th>Description</th>
+                                <th>IP Address</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for log in logs %}
+                            <tr>
+                                <td>{{ log.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                <td>{{ log.event_type }}</td>
+                                <td>{{ log.description }}</td>
+                                <td>{{ log.ip_address }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p class="no-logs">No security logs found.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme handling
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+    </script>
+</body>
+</html> 

@@ -16,6 +16,17 @@
   <div class="auth-container">
     <div class="auth-card glassy">
       <h2>Create Your Account</h2>
+      
+      <!-- Email Verification Notice -->
+      <div id="verification-notice" class="verification-notice" style="background-color: #e3f2fd; border-left: 4px solid #2196F3; padding: 15px; margin-bottom: 20px; border-radius: 4px; display: none;">
+        <h3 style="color: #1976D2; margin: 0 0 10px 0; font-size: 1.1em;">
+          <i class="fas fa-info-circle" style="margin-right: 8px;"></i>Email Verification Required
+        </h3>
+        <p style="margin: 0; color: #333; font-size: 0.95em;">
+          After registration, you'll receive a verification email. Please check your inbox and verify your email address to activate your account.
+        </p>
+      </div>
+
       <form method="POST">
         
         <!-- Username -->
@@ -80,6 +91,15 @@
         <!-- Register Button -->
         <button type="submit" class="btn full-btn" id="submit-btn" disabled>Register</button>
 
+        <!-- Flash Messages -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
         <!-- Login Link -->
         <p class="switch-auth">Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
       </form>
@@ -110,6 +130,25 @@
           document.getElementById("captcha-img").src = "data:image/png;base64," + data.captcha_image;
         });
     }
+
+    // Verification Notice Timer
+    document.addEventListener('DOMContentLoaded', function() {
+      const notice = document.getElementById('verification-notice');
+      let timeLeft = 3;
+
+      // Show the notice
+      notice.style.display = 'block';
+
+      // Start the timer
+      const timer = setInterval(() => {
+        timeLeft--;
+        
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          notice.style.display = 'none';
+        }
+      }, 1000);
+    });
   </script>
 </body>
 </html>

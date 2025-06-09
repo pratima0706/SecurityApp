@@ -9,71 +9,106 @@
 </head>
 <body data-theme="light">
   <div class="home-container">
-    <div class="dashboard-card">
-
-      <!-- Header with Profile and Theme Toggle -->
-      <div class="dashboard-header">
-        <div class="welcome-section">
-          <h1>Welcome, {{ current_user.username }} 👋</h1>
-          <p>You are securely logged in. Explore your dashboard below.</p>
-        </div>
-        <div class="user-controls">
-          <!-- Profile Link and Image -->
-          <a href="{{ url_for('profile') }}" class="profile-link">
-            <img src="{{ url_for('static', filename='images/default_profile.png') }}" alt="Profile Image" class="profile-img">
-            <span>Profile</span>
-          </a>
-
-          <!-- 🌗 Theme Toggle -->
-          <div class="theme-toggle">
-            <span id="theme-label">🌞 Light Mode</span>
-            <label class="switch">
-              <input type="checkbox" id="themeToggle">
-              <span class="slider round"></span>
-            </label>
-          </div>
+    <!-- Top Navigation Bar -->
+    <div class="top-navbar">
+      <div class="navbar-left">
+        {# Site Logo or Title #}
+        <span class="navbar-title">Digital Security</span> {# Placeholder title #}
+        {# <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="navbar-logo"> #}
+      </div>
+      <div class="navbar-center">
+        {# Navigation Links #}
+        <div class="navbar-links">
+          <a href="{{ url_for('home') }}">Dashboard</a>
+          {# Add other relevant links here, e.g., Security Logs, Users, etc. #}
+          <a href="{{ url_for('security_logs') }}">Security Logs</a>
+          {# <a href="#">Users</a> #}
+          {# <a href="#">Reports</a> #}
         </div>
       </div>
+      <div class="navbar-right">
+        {# Icons (like notification) and Profile/Theme Toggle #}
+         <div class="navbar-icons">
+             {# <i class="fas fa-bell icon"></i> #} {# Notification Icon #}
+         </div>
+         <div class="user-controls">
+             <!-- 🌗 Theme Toggle -->
+             <div class="theme-toggle">
+                <span id="theme-icon-home" style="font-size: 1 rem; cursor: pointer;">🌞</span>
+             </div>
+              <!-- Profile Link and Image -->
+             <a href="{{ url_for('profile') }}" class="profile-link">
+                <i class="fas fa-user profile-icon"></i>
+                <span>{{ current_user.username }}</span>
+             </a>
+              <!-- Logout Button -->
+             <a href="{{ url_for('logout') }}" class="btn logout-btn">Logout</a>
+         </div>
+      </div>
+    </div>
 
-      <hr class="divider">
+    <!-- Dashboard Content Area - Card Grid -->
+    <div class="dashboard-grid">
 
-      <!-- Dashboard Content Area (placeholder) -->
-      <div class="dashboard-content">
-        <h3>Security Overview</h3>
-        <p>This is where you can add various security metrics, recent activity logs, etc.</p>
-        <!-- Example: Link to security logs (if you have one) -->
-        <!-- <a href="{{ url_for('security_logs') }}" class="btn dashboard-btn">View Security Logs</a> -->
+      <!-- Account Status Card -->
+      <div class="dashboard-card-item">
+        <h3>Account Status</h3>
+        <p>Your email is {% if current_user.email_verified %}verified ✅{% else %}not verified ❌{% endif %}.</p>
+        {% if not current_user.email_verified %}
+          <p><small>Verify your email for full access and security features.</small></p>
+          <form method="POST" action="{{ url_for('resend_verification') }}" style="margin-top: 10px;">
+             <button type="submit" class="btn btn-sm">Resend Verification Email</button>
+           </form>
+        {% endif %}
       </div>
 
-      <hr class="divider">
-
-      <!-- Dashboard Links -->
-      <div class="dashboard-links">
-        <a href="{{ url_for('profile') }}" class="btn dashboard-btn">Manage Profile</a>
-        <!-- Add more dashboard links here -->
-        <a href="{{ url_for('logout') }}" class="btn dashboard-btn">Logout</a>
+      <!-- Security Logs Card -->
+      <div class="dashboard-card-item">
+        <h3>Recent Security Activity</h3>
+        <p>View your login attempts and other security events.</p>
+        <a href="{{ url_for('security_logs') }}" class="btn dashboard-btn">View Security Logs</a>
       </div>
+      
+      <!-- Password Security Card -->
+       <div class="dashboard-card-item">
+         <h3>Password Security</h3>
+         <p>Ensure your password is strong and up-to-date.</p>
+         <a href="{{ url_for('profile') }}#password-change-section" class="btn dashboard-btn">Change Password</a> {# Link to section on profile page #}
+       </div>
+
+      <!-- Manage Profile Card -->
+      <div class="dashboard-card-item">
+        <h3>Manage Your Profile</h3>
+        <p>Update your account details and settings.</p>
+        <a href="{{ url_for('profile') }}" class="btn dashboard-btn">Go to Profile</a>
+      </div>
+      
+      {# Add more cards here as needed #}
+
     </div>
   </div>
 
   <script>
-    const toggle = document.getElementById('themeToggle');
-    const label = document.getElementById('theme-label');
+    // Theme Toggle Script - Using icon only
+    const iconHome = document.getElementById('theme-icon-home');
 
-    function applyTheme(mode) {
+    function applyThemeHome(mode) {
       document.body.setAttribute('data-theme', mode);
       localStorage.setItem('theme', mode);
-      label.textContent = mode === 'dark' ? "🌚 Dark Mode" : "🌞 Light Mode";
-      toggle.checked = mode === 'dark';
+      iconHome.textContent = mode === 'dark' ? '🌙' : '🌞';
     }
 
-    toggle.addEventListener('change', () => {
-      const mode = toggle.checked ? 'dark' : 'light';
-      applyTheme(mode);
+    iconHome.addEventListener('click', () => {
+      const mode = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      applyThemeHome(mode);
     });
 
-    const saved = localStorage.getItem('theme') || 'light';
-    applyTheme(saved);
+    // Apply saved theme on page load for home
+    const savedThemeHome = localStorage.getItem('theme') || 'light';
+    applyThemeHome(savedThemeHome);
+
+    // ... existing other scripts if any ...
+
   </script>
 </body>
 </html>

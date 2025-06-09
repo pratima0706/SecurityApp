@@ -19,12 +19,77 @@ const suggestedPasswordText = document.getElementById('suggested-password');
 const acceptBtn = document.getElementById('accept-password');
 const refreshBtn = document.getElementById('refresh-password');
 
+// Advanced password strength checker
+function calculatePasswordStrength(password) {
+  let score = 0;
+  const feedback = [];
+
+  // Length scoring (up to 30 points)
+  if (password.length < 8) {
+    feedback.push("Password is too short");
+  } else {
+    score += Math.min(30, password.length * 2);
+  }
+
+  // Character variety scoring (up to 20 points)
+  const hasUpper = /[A-Z]/.test(password);
+  const hasLower = /[a-z]/.test(password);
+  const hasNumber = /\d/.test(password);
+  const hasSymbol = /[^A-Za-z0-9]/.test(password);
+  const varietyCount = [hasUpper, hasLower, hasNumber, hasSymbol].filter(Boolean).length;
+  score += varietyCount * 5;
+
+  // Complexity scoring (up to 25 points)
+  const uniqueChars = new Set(password).size;
+  score += Math.min(25, uniqueChars * 2);
+
+  // Pattern detection (penalties)
+  const commonPatterns = [
+    /(.)\1{2,}/, // Repeated characters
+    /(123|234|345|456|567|678|789|890)/, // Sequential numbers
+    /(qwer|asdf|zxcv)/, // Keyboard patterns
+    /(password|admin|123456)/i // Common passwords
+  ];
+
+  commonPatterns.forEach(pattern => {
+    if (pattern.test(password)) {
+      score -= 10;
+      feedback.push("Contains common patterns");
+    }
+  });
+
+  // Entropy calculation (up to 25 points)
+  const charSet = new Set(password);
+  const entropy = Math.log2(Math.pow(charSet.size, password.length));
+  score += Math.min(25, entropy / 2);
+
+  // Determine strength level
+  let strength;
+  if (score < 30) {
+    strength = "Very Weak";
+  } else if (score < 50) {
+    strength = "Weak";
+  } else if (score < 70) {
+    strength = "Medium";
+  } else if (score < 90) {
+    strength = "Strong";
+  } else {
+    strength = "Very Strong";
+  }
+
+  return {
+    score: Math.min(100, Math.max(0, score)),
+    strength,
+    feedback
+  };
+}
+
 function generateStrongPassword() {
   const l = 'abcdefghijklmnopqrstuvwxyz', u = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const n = '0123456789', s = '!@#$%^&*()_+-=[]{}|;:,.<>?';
   let pwd = l[1] + u[1] + n[1] + s[1];
   const all = l + u + n + s;
-  for (let i = 0; i < 8; i++) pwd += all[Math.floor(Math.random() * all.length)];
+  for (let i = 0; i < 12; i++) pwd += all[Math.floor(Math.random() * all.length)];
   return pwd.split('').sort(() => Math.random() - 0.5).join('');
 }
 
@@ -60,25 +125,30 @@ confirmField.addEventListener('input', checkMatch);
 function updateStrength() {
   const pwd = passwordField.value;
   strengthSection.style.display = pwd ? 'block' : 'none';
-  const hasLength = pwd.length >= 8;
-  const hasUpper = /[A-Z]/.test(pwd);
-  const hasLower = /[a-z]/.test(pwd);
-  const hasNumber = /\d/.test(pwd);
-  const hasSymbol = /[^A-Za-z0-9]/.test(pwd);
+  
+  // Update basic criteria indicators
+  criteriaList.length.className = pwd.length >= 8 ? 'valid' : 'invalid';
+  criteriaList.uppercase.className = /[A-Z]/.test(pwd) ? 'valid' : 'invalid';
+  criteriaList.lowercase.className = /[a-z]/.test(pwd) ? 'valid' : 'invalid';
+  criteriaList.number.className = /\d/.test(pwd) ? 'valid' : 'invalid';
+  criteriaList.symbol.className = /[^A-Za-z0-9]/.test(pwd) ? 'valid' : 'invalid';
 
-  criteriaList.length.className = hasLength ? 'valid' : 'invalid';
-  criteriaList.uppercase.className = hasUpper ? 'valid' : 'invalid';
-  criteriaList.lowercase.className = hasLower ? 'valid' : 'invalid';
-  criteriaList.number.className = hasNumber ? 'valid' : 'invalid';
-  criteriaList.symbol.className = hasSymbol ? 'valid' : 'invalid';
-
-  let score = hasLength + hasUpper + hasLower + hasNumber + hasSymbol;
-  const strengths = ['Very Weak', 'Weak', 'Medium', 'Strong', 'Very Strong'];
-  const colors = ['#f44336', '#ff9800', '#ffeb3b', '#4caf50', '#2196f3'];
-
-  strengthText.textContent = strengths[score - 1] || 'Very Weak';
-  strengthBar.style.width = (score * 20) + '%';
-  strengthBar.style.background = colors[score - 1] || '#f44336';
+  // Calculate advanced strength
+  const result = calculatePasswordStrength(pwd);
+  
+  // Update strength display
+  strengthText.textContent = result.strength;
+  strengthBar.style.width = result.score + '%';
+  
+  // Set color based on strength
+  const colors = {
+    'Very Weak': '#f44336',
+    'Weak': '#ff9800',
+    'Medium': '#ffeb3b',
+    'Strong': '#4caf50',
+    'Very Strong': '#2196f3'
+  };
+  strengthBar.style.background = colors[result.strength];
 }
 
 function checkMatch() {
@@ -115,7 +185,6 @@ if (loginPasswordField && togglePasswordIcon) {
   togglePasswordIcon.addEventListener('click', () => {
     const type = loginPasswordField.getAttribute('type') === 'password' ? 'text' : 'password';
     loginPasswordField.setAttribute('type', type);
-    // Change the icon
-    togglePasswordIcon.textContent = type === 'password' ? '��️' : '🙈';
+    togglePasswordIcon.textContent = type === 'password' ? '��️' : '🙉';
   });
 }

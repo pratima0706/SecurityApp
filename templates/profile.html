@@ -3,239 +3,129 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Security Profile | Digital Security</title>
+  <title>Profile | Digital Security</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body data-theme="light">
-  <div class="dashboard-container">
-    <!-- Sidebar Navigation -->
-    <nav class="sidebar">
-      <div class="sidebar-header">
-        <h2>🔐 Digital Security</h2>
+  <div class="profile-container-new">
+    <!-- Back Arrow -->
+    <a href="{{ url_for('home') }}" class="back-arrow">
+      <i class="fas fa-arrow-left"></i>
+    </a>
+
+    <!-- Profile Header -->
+    <div class="profile-header-new">
+      <h2>Profile</h2>
+      <div class="profile-picture-area">
+        <div class="profile-icon-large">
+          <i class="fas fa-user"></i>
+        </div>
+        <div class="camera-icon-overlay">
+          <i class="fas fa-camera"></i>
+        </div>
+        <div class="image-upload-options">
+          <button onclick="document.getElementById('take-photo').click()">
+            <i class="fas fa-camera"></i> Take Photo
+          </button>
+          <button onclick="document.getElementById('pick-image').click()">
+            <i class="fas fa-image"></i> Pick Image
+          </button>
+        </div>
+        <input type="file" id="take-photo" accept="image/*" capture="camera" style="display: none;">
+        <input type="file" id="pick-image" accept="image/*" style="display: none;">
       </div>
-      <ul class="nav-links">
-        <li>
-          <a href="{{ url_for('home') }}">
-            <i class="fas fa-home"></i>
-            <span>Dashboard</span>
-          </a>
-        </li>
-        <li class="active">
-          <a href="{{ url_for('profile') }}">
-            <i class="fas fa-user-shield"></i>
-            <span>Security Profile</span>
-          </a>
-        </li>
-        <li>
-          <a href="#" class="security-scan">
-            <i class="fas fa-shield-alt"></i>
-            <span>Security Scan</span>
-          </a>
-        </li>
-        <li>
-          <a href="#" class="password-manager">
-            <i class="fas fa-key"></i>
-            <span>Password Manager</span>
-          </a>
-        </li>
-        <li>
-          <a href="#" class="activity-log">
-            <i class="fas fa-history"></i>
-            <span>Activity Log</span>
-          </a>
-        </li>
-      </ul>
-      <div class="sidebar-footer">
-        <a href="{{ url_for('logout') }}" class="logout-btn">
-          <i class="fas fa-sign-out-alt"></i>
-          <span>Logout</span>
-        </a>
-      </div>
-    </nav>
+    </div>
 
-    <!-- Main Content -->
-    <main class="main-content">
-      <!-- Top Bar -->
-      <div class="top-bar">
-        <div class="welcome-text">
-          <h1>Security Profile</h1>
-          <p>Manage your account security settings</p>
-        </div>
-        <div class="top-bar-actions">
-          <!-- 🌗 Theme Toggle -->
-          <div class="theme-toggle">
-            <span id="theme-label">🌞 Light Mode</span>
-            <label class="switch">
-              <input type="checkbox" id="themeToggle">
-              <span class="slider round"></span>
-            </label>
-          </div>
-          <div class="user-menu">
-            <img src="https://ui-avatars.com/api/?name={{ current_user.username }}&background=6c63ff&color=fff" alt="Profile" class="avatar">
-            <span>{{ current_user.username }}</span>
-          </div>
-        </div>
-      </div>
+    <!-- Profile Menu -->
+    <div class="profile-menu">
+      <a href="#" class="menu-item">
+        <i class="fas fa-user menu-icon"></i>
+        <span class="menu-text">My Account</span>
+        <i class="fas fa-chevron-right menu-arrow"></i>
+      </a>
+      <a href="#" class="menu-item">
+        <i class="fas fa-bell menu-icon"></i>
+        <span class="menu-text">Notifications</span>
+        <i class="fas fa-chevron-right menu-arrow"></i>
+      </a>
+      <a href="#" class="menu-item">
+        <i class="fas fa-cog menu-icon"></i>
+        <span class="menu-text">Settings</span>
+        <i class="fas fa-chevron-right menu-arrow"></i>
+      </a>
+      <a href="{{ url_for('change_password') }}" class="menu-item">
+        <i class="fas fa-lock menu-icon"></i>
+        <span class="menu-text">Change Password</span>
+        <i class="fas fa-chevron-right menu-arrow"></i>
+      </a>
+      <a href="#" class="menu-item">
+        <i class="fas fa-question-circle menu-icon"></i>
+        <span class="menu-text">Help Center</span>
+        <i class="fas fa-chevron-right menu-arrow"></i>
+      </a>
+      <a href="{{ url_for('logout') }}" class="menu-item">
+        <i class="fas fa-sign-out-alt menu-icon"></i>
+        <span class="menu-text">Log Out</span>
+        <i class="fas fa-chevron-right menu-arrow"></i>
+      </a>
+    </div>
 
-      <!-- Profile Content -->
-      <div class="profile-grid">
-        <!-- Profile Information Card -->
-        <div class="dashboard-card profile-info">
-          <div class="card-header">
-            <h3>Profile Information</h3>
-            <i class="fas fa-user"></i>
-          </div>
-          <form method="POST" class="profile-form">
-            <div class="form-group">
-              <label><i class="fas fa-user"></i> Username</label>
-              <input type="text" name="username" value="{{ current_user.username }}" required />
-            </div>
-            <div class="form-group">
-              <label><i class="fas fa-envelope"></i> Email</label>
-              <input type="email" name="email" value="{{ current_user.email }}" required />
-            </div>
-            <button type="submit" class="btn primary">Update Profile</button>
-          </form>
-        </div>
-
-        <!-- Security Settings Card -->
-        <div class="dashboard-card security-settings">
-          <div class="card-header">
-            <h3>Security Settings</h3>
-            <i class="fas fa-shield-alt"></i>
-          </div>
-          <div class="settings-list">
-            <div class="setting-item">
-              <div class="setting-info">
-                <h4>Two-Factor Authentication</h4>
-                <p>Add an extra layer of security to your account</p>
-              </div>
-              <label class="switch">
-                <input type="checkbox" disabled>
-                <span class="slider round"></span>
-              </label>
-            </div>
-            <div class="setting-item">
-              <div class="setting-info">
-                <h4>Login Notifications</h4>
-                <p>Get notified when someone logs into your account</p>
-              </div>
-              <label class="switch">
-                <input type="checkbox" checked>
-                <span class="slider round"></span>
-              </label>
-            </div>
-            <div class="setting-item">
-              <div class="setting-info">
-                <h4>Session Management</h4>
-                <p>Manage your active sessions</p>
-              </div>
-              <button class="btn secondary">View Sessions</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Password Management Card -->
-        <div class="dashboard-card password-management">
-          <div class="card-header">
-            <h3>Password Management</h3>
-            <i class="fas fa-key"></i>
-          </div>
-          <form method="POST" class="password-form">
-            <div class="form-group">
-              <label><i class="fas fa-lock"></i> New Password</label>
-              <input type="password" id="new_password" name="new_password" placeholder="Enter new password" />
-            </div>
-            <div class="form-group">
-              <label><i class="fas fa-lock"></i> Confirm Password</label>
-              <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm new password" />
-            </div>
-
-            <!-- Password Strength Meter -->
-            <div class="strength-meter">
-              <div class="strength-bar-bg">
-                <div class="strength-bar"></div>
-              </div>
-              <div class="strength-text">Password strength: <span id="strength-text">None</span></div>
-              <ul class="strength-criteria">
-                <li id="length" class="invalid">At least 8 characters</li>
-                <li id="uppercase" class="invalid">Uppercase letter</li>
-                <li id="lowercase" class="invalid">Lowercase letter</li>
-                <li id="number" class="invalid">Number</li>
-                <li id="symbol" class="invalid">Special character</li>
-              </ul>
-            </div>
-
-            <button type="submit" class="btn primary">Update Password</button>
-          </form>
-        </div>
-
-        <!-- Account Activity Card -->
-        <div class="dashboard-card account-activity">
-          <div class="card-header">
-            <h3>Recent Account Activity</h3>
-            <i class="fas fa-history"></i>
-          </div>
-          <div class="activity-timeline">
-            <div class="timeline-item">
-              <div class="timeline-icon">
-                <i class="fas fa-sign-in-alt"></i>
-              </div>
-              <div class="timeline-content">
-                <h4>Login</h4>
-                <p>Successful login from Chrome on Windows</p>
-                <span class="timeline-date">Today, 10:30 AM</span>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-icon">
-                <i class="fas fa-key"></i>
-              </div>
-              <div class="timeline-content">
-                <h4>Password Change</h4>
-                <p>Password was updated</p>
-                <span class="timeline-date">2 days ago</span>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-icon">
-                <i class="fas fa-envelope"></i>
-              </div>
-              <div class="timeline-content">
-                <h4>Email Verification</h4>
-                <p>Email address was verified</p>
-                <span class="timeline-date">1 week ago</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
+    <!-- Theme Toggle -->
+    <div class="theme-toggle icon-only">
+      <span id="theme-icon-profile" style="font-size: 1.3rem; cursor: pointer;">🌞</span>
+    </div>
   </div>
 
-  <!-- Theme Toggle Script -->
   <script>
-    const toggle = document.getElementById('themeToggle');
-    const label = document.getElementById('theme-label');
+    // Theme Toggle Script
+    const iconProfile = document.getElementById('theme-icon-profile');
 
-    function applyTheme(mode) {
+    function applyThemeProfile(mode) {
       document.body.setAttribute('data-theme', mode);
       localStorage.setItem('theme', mode);
-      label.textContent = mode === 'dark' ? "🌚 Dark Mode" : "🌞 Light Mode";
-      toggle.checked = mode === 'dark';
+      iconProfile.textContent = mode === 'dark' ? '🌙' : '🌞';
     }
 
-    toggle.addEventListener('change', () => {
-      const mode = toggle.checked ? 'dark' : 'light';
-      applyTheme(mode);
+    iconProfile.addEventListener('click', () => {
+      const mode = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      applyThemeProfile(mode);
     });
 
-    const saved = localStorage.getItem('theme') || 'light';
-    applyTheme(saved);
-  </script>
+    // Apply saved theme on page load
+    const savedThemeProfile = localStorage.getItem('theme') || 'light';
+    applyThemeProfile(savedThemeProfile);
 
-  <!-- Password Strength Script -->
-  <script src="{{ url_for('static', filename='js/password.js') }}"></script>
+    // Show/hide image upload options
+    document.querySelector('.camera-icon-overlay').addEventListener('click', function(e) {
+      e.stopPropagation();
+      document.querySelector('.image-upload-options').classList.toggle('show');
+    });
+
+    // Hide options when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.profile-picture-area')) {
+        document.querySelector('.image-upload-options').classList.remove('show');
+      }
+    });
+
+    // Handle file selection
+    document.getElementById('take-photo').addEventListener('change', handleImageSelect);
+    document.getElementById('pick-image').addEventListener('change', handleImageSelect);
+
+    function handleImageSelect(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          // Here you would typically upload the image to the server
+          // For now, we'll just show a preview
+          const profileIcon = document.querySelector('.profile-icon-large');
+          profileIcon.innerHTML = `<img src="${e.target.result}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  </script>
 </body>
 </html>
