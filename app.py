@@ -11,10 +11,7 @@ import os
 from dotenv import load_dotenv
 import smtplib
 
-# Load environment variables
-# load_dotenv()
-
-# 🔧 Flask App Configuration
+# Flask App Configuration
 app = Flask(__name__)
 
 # Ensure instance folder exists
@@ -37,23 +34,23 @@ app.config['MAIL_PASSWORD'] = 'gxbo gtqu dcxx luad'
 app.config['RECAPTCHA_PUBLIC_KEY'] = '6Lfrj1crAAAAAFAQokAG3WXwmej85mE21ByyoMoW'
 app.config['RECAPTCHA_PRIVATE_KEY'] = '6Lfrj1crAAAAAGKu-dwppSY6Xzk3mR9rtaVwayM_'
 
-# 🔌 Extensions
+# Extensions
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 mail = Mail(app)
 
-# 🔐 Rate Limiting: Prevent Brute Force
+# Rate Limiting Configuration
 login_attempts = defaultdict(list)
 MAX_ATTEMPTS = 5
 WINDOW_SECONDS = 600  # 10 minutes
 
-# 🔒 Password Policy Constants
+# Password Policy Constants
 PASSWORD_CHANGE_INTERVAL_DAYS = 90
-PASSWORD_HISTORY_COUNT = 3 # Remember the last 3 passwords
+PASSWORD_HISTORY_COUNT = 3
 
-# 🧠 Database Models
+# Database Models
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False)
@@ -64,7 +61,7 @@ class User(db.Model, UserMixin):
     email_verification_token = db.Column(db.String(100), unique=True)
     reset_token = db.Column(db.String(100), unique=True)
     reset_token_expiry = db.Column(db.DateTime)
-    last_password_change = db.Column(db.DateTime, default=datetime.utcnow) # Added for password change frequency
+    last_password_change = db.Column(db.DateTime, default=datetime.utcnow)
 
 class PasswordHistory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -92,7 +89,6 @@ class Captcha(db.Model):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# 🔏 CAPTCHA Generator
 def generate_captcha():
     characters = string.ascii_lowercase + string.ascii_uppercase + string.digits
     text = ''.join(random.choices(characters, k=6))
@@ -110,7 +106,6 @@ def generate_captcha():
 
     return text, encoded_img
 
-# 🔐 Password Strength Checker (Backend)
 def is_strong_password(password):
     return all([
         len(password) >= 8,
@@ -120,7 +115,6 @@ def is_strong_password(password):
         re.search(r'\W', password)
     ])
 
-# 📧 Email Functions
 def send_verification_email(user):
     try:
         token = secrets.token_urlsafe(32)
@@ -143,35 +137,20 @@ def send_verification_email(user):
         </div>
         '''
         mail.send(msg)
-        print(f"Verification email sent to {user.email}")
     except smtplib.SMTPAuthenticationError as e:
-        print(f"SMTP Authentication Error: {e}")
-        print(f"Username: {app.config['MAIL_USERNAME']}")
-        print(f"Password length: {len(app.config['MAIL_PASSWORD'])}")
         raise
     except Exception as e:
-        print(f"Error sending email: {e}")
         raise
 
-# Create database tables
+# Initialize database
 with app.app_context():
     try:
-        # Drop all tables first to ensure clean state
         db.drop_all()
-        # Create all tables
         db.create_all()
-        print(f"[DEBUG] Database initialized successfully at {db_path}")
-        print("[DEBUG] Created tables:")
-        for table in db.metadata.tables:
-            print(f"  - {table}")
     except Exception as e:
-        print(f"[ERROR] Database initialization failed: {e}")
-        print(f"Database path: {db_path}")
-        print(f"Instance path: {instance_path}")
-        print(f"Current working directory: {os.getcwd()}")
         raise
 
-# 🌐 Routes
+# Routes
 @app.route('/')
 def onboarding():
     return render_template('onboarding.html')
@@ -180,65 +159,50 @@ def onboarding():
 def register():
     try:
         if request.method == 'POST':
-            print("[DEBUG] Starting registration process...")
             uname = request.form['username']
             email = request.form['email']
             pwd = request.form['password']
             confirm = request.form['confirm_password']
             captcha_input = request.form['captcha']
-            
-            print(f"[DEBUG] Registration attempt - Username: {uname}, Email: {email}")
 
             if captcha_input.lower() != session.get('captcha_text', '').lower():
-                print("[DEBUG] CAPTCHA mismatch")
                 flash("CAPTCHA did not match.", "danger")
                 return redirect(url_for('register'))
 
             if pwd != confirm:
-                print("[DEBUG] Password mismatch")
                 flash("Passwords do not match.", "danger")
                 return redirect(url_for('register'))
 
             if not is_strong_password(pwd):
-                print("[DEBUG] Weak password")
                 flash("Weak password. Please use a stronger one.", "warning")
                 return redirect(url_for('register'))
 
             existing_user = User.query.filter((User.username == uname) | (User.email == email)).first()
             if existing_user:
-                print(f"[DEBUG] User already exists - Username: {uname}, Email: {email}")
                 flash("Username or Email already exists.", "warning")
                 return redirect(url_for('register'))
 
             try:
-                print("[DEBUG] Creating new user...")
                 hashed = bcrypt.generate_password_hash(pwd).decode('utf-8')
                 if PasswordHistory.query.filter_by(password_hash=hashed).first():
-                    print("[DEBUG] Password already used before")
                     flash("Password already used before.", "warning")
                     return redirect(url_for('register'))
 
-                user = User(username=uname, email=email, password=hashed, last_password_change=datetime.utcnow()) # Set initial change date
+                user = User(username=uname, email=email, password=hashed, last_password_change=datetime.utcnow())
                 db.session.add(user)
                 db.session.commit()
-                print(f"[DEBUG] User created successfully - ID: {user.id}")
 
                 db.session.add(PasswordHistory(user_id=user.id, password_hash=hashed))
-                # Prune old password history if exceeding limit 
                 history_count = PasswordHistory.query.filter_by(user_id=user.id).count()
                 if history_count > PASSWORD_HISTORY_COUNT:
                      oldest_histories = PasswordHistory.query.filter_by(user_id=user.id).order_by(PasswordHistory.created_at.asc()).limit(history_count - PASSWORD_HISTORY_COUNT).all()
                      for old_hist in oldest_histories:
                          db.session.delete(old_hist)
                 db.session.commit()
-                print("[DEBUG] Password history updated")
 
                 try:
-                    print("[DEBUG] Sending verification email...")
                     send_verification_email(user)
-                    print("[DEBUG] Verification email sent successfully")
                 except Exception as e:
-                    print(f"[ERROR] Failed to send verification email: {e}")
                     flash("Account created, but verification email could not be sent. Please contact support.", "warning")
                     return redirect(url_for('login'))
 
@@ -246,7 +210,6 @@ def register():
                 return redirect(url_for('login'))
 
             except Exception as e:
-                print(f"[ERROR] Database error during registration: {e}")
                 db.session.rollback()
                 flash("An error occurred while creating your account. Please try again.", "danger")
                 return redirect(url_for('register'))
@@ -256,7 +219,6 @@ def register():
         return render_template('register.html', captcha_image=image)
 
     except Exception as e:
-        print(f"[ERROR] Registration process failed: {e}")
         flash("An error occurred during registration. Please try again later.", "danger")
         return redirect(url_for('register'))
 
@@ -264,63 +226,47 @@ def register():
 def login():
     try:
         if request.method == 'POST':
-            print("[DEBUG] Starting login process...")
             email = request.form['email']
             pwd = request.form['password']
             recaptcha_response = request.form.get('g-recaptcha-response')
-            print(f"[DEBUG] Login attempt - Email/Username: {email}")
 
             ip = request.remote_addr
             now = datetime.now().timestamp()
             login_attempts[ip] = [t for t in login_attempts[ip] if now - t < WINDOW_SECONDS]
 
             if len(login_attempts[ip]) >= MAX_ATTEMPTS:
-                print(f"[WARNING] Too many login attempts from IP: {ip}")
                 flash("Too many attempts. Try again later.", "danger")
                 return redirect(url_for('login'))
 
             login_attempts[ip].append(now)
 
-            # reCAPTCHA Validation
             try:
-                print("[DEBUG] Validating reCAPTCHA...")
                 r = requests.post('https://www.google.com/recaptcha/api/siteverify',
                                 data={'secret': app.config['RECAPTCHA_PRIVATE_KEY'], 'response': recaptcha_response})
                 if not r.json().get('success'):
-                    print("[WARNING] reCAPTCHA validation failed")
                     flash("reCAPTCHA failed.", "danger")
                     return redirect(url_for('login'))
-                print("[DEBUG] reCAPTCHA validation successful")
             except Exception as e:
-                print(f"[WARNING] reCAPTCHA validation error: {e}")
                 flash("reCAPTCHA validation error. Please try again.", "danger")
                 return redirect(url_for('login'))
 
-            print("[DEBUG] Looking up user...")
             user = User.query.filter((User.email == email) | (User.username == email)).first()
             
             if user:
-                print(f"[DEBUG] User found - ID: {user.id}")
                 if bcrypt.check_password_hash(user.password, pwd):
-                    print("[DEBUG] Password verified")
                     if not user.email_verified:
-                        print(f"[WARNING] Login attempt with unverified email: {email}")
                         flash("Email not verified.", "warning")
                         return redirect(url_for('login'))
                     login_user(user)
-                    print(f"[DEBUG] User logged in successfully - ID: {user.id}")
 
-                    # Check for password change frequency
                     if user.last_password_change is None or (datetime.utcnow() - user.last_password_change).days > PASSWORD_CHANGE_INTERVAL_DAYS:
                         flash(f'Your password has not been changed in over {PASSWORD_CHANGE_INTERVAL_DAYS} days. Please update your password.', 'warning')
                         return redirect(url_for('change_password'))
 
                     flash("Welcome!", "success")
-                    # Log successful login
                     log_event(user.id, 'Successful Login', 'User logged in successfully.', request.remote_addr, request.user_agent.string)
                     return redirect(url_for('home'))
                 else:
-                    # Check password history if current password check fails
                     old_password_entry = PasswordHistory.query.filter_by(user_id=user.id).order_by(PasswordHistory.created_at.desc()).all()
                     found_old_password = None
                     for entry in old_password_entry:
@@ -329,7 +275,6 @@ def login():
                             break
 
                     if found_old_password:
-                         # Calculate time difference and format message
                          now = datetime.utcnow()
                          time_diff = now - found_old_password.created_at
                          time_ago_str = "recently"
@@ -346,24 +291,17 @@ def login():
                                  time_ago_str = f"{years} {'year' if years == 1 else 'years'} ago"
 
                          flash(f"Invalid credentials. The password you entered is old. Your password was last changed {time_ago_str}.", "warning")
-                         print(f"[WARNING] Old password used for login attempt by user ID {user.id}")
                     else:
                         flash("Invalid credentials.", "danger")
-                        print("[DEBUG] Invalid password")
-                    # Log failed login
                     log_event(user.id, 'Failed Login', 'Invalid password provided.', request.remote_addr, request.user_agent.string)
             else:
-                print("[DEBUG] User not found")
                 flash("Invalid credentials.", "danger")
-                print(f"[WARNING] Invalid login credentials for: {email} (user not found)")
-                # Log failed login attempt for non-existent user (user_id=None)
                 log_event(None, 'Failed Login', f'Attempt with non-existent user: {email}', request.remote_addr, request.user_agent.string)
             
             return redirect(url_for('login'))
 
         return render_template('login.html', app=app)
     except Exception as e:
-        print(f"[ERROR] Login process failed: {e}")
         flash("An error occurred during login. Please try again later.", "danger")
         return redirect(url_for('login'))
 
@@ -427,23 +365,16 @@ If you did not make this request then simply ignore this email.
 '''
                 try:
                     mail.send(msg)
-                    print(f"Password reset email sent to {user.email}")
                     flash('Password reset instructions have been sent to your email.', 'info')
                 except smtplib.SMTPAuthenticationError as e:
-                    print(f"[WARNING] SMTP Authentication Error: {e}")
-                    print(f"Username: {app.config['MAIL_USERNAME']}")
-                    print(f"Password length: {len(app.config['MAIL_PASSWORD'])}")
                     flash('Failed to send password reset email. Please check your email configuration.', 'danger')
                 except Exception as e:
-                    print(f"[WARNING] Error sending email: {e}")
                     flash('An error occurred while sending the password reset email.', 'danger')
             else:
                 flash('Email not found.', 'danger')
-                print(f"[WARNING] Password reset requested for non-existent email: {email}")
             return redirect(url_for('login'))
         return render_template('forgot_password.html')
     except Exception as e:
-        print(f"[ERROR] Forgot password process failed: {e}")
         flash("An error occurred. Please try again later.", "danger")
         return redirect(url_for('forgot_password'))
 
@@ -499,7 +430,6 @@ def resend_verification():
         send_verification_email(current_user)
         flash("Verification email has been resent. Please check your inbox.", "success")
     except Exception as e:
-        print(f"Error resending verification email: {e}")
         flash("Failed to resend verification email. Please try again later.", "danger")
     
     return redirect(url_for('login'))
@@ -514,49 +444,36 @@ def change_password():
 
         user = current_user
 
-        # 1. Verify current password
         if not bcrypt.check_password_hash(user.password, current_password):
             flash('Incorrect current password.', 'danger')
             return render_template('change_password.html')
 
-        # 2. Check if new passwords match
         if new_password != confirm_new_password:
             flash('New passwords do not match.', 'danger')
             return render_template('change_password.html')
 
-        # 3. Check new password strength (using backend validation)
         if not is_strong_password(new_password):
             flash('New password does not meet security requirements (min 8 chars, 1 upper, 1 lower, 1 digit, 1 symbol).', 'danger')
             return render_template('change_password.html')
 
-        # 4. Check password history
         hashed_new_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
 
-        # Get recent password hashes from history
         recent_passwords = PasswordHistory.query.filter_by(user_id=user.id)\
                                                 .order_by(PasswordHistory.created_at.desc())\
                                                 .limit(PASSWORD_HISTORY_COUNT).all()
 
         for history_entry in recent_passwords:
-            # Compare new password hash with historical hashes
-            # Note: This assumes direct hash comparison which is only safe if using a non-random hash like SHA256
-            # Bcrypt generates different hashes for the same password due to salts.
-            # A more robust check with bcrypt history would involve checking the new password against the *stored hash*
-            # Let's use the correct bcrypt check here:
             if bcrypt.check_password_hash(history_entry.password_hash, new_password):
                 flash(f'You cannot reuse a password from your last {PASSWORD_HISTORY_COUNT} changes.', 'warning')
                 return render_template('change_password.html')
 
-        # 5. Update password, history, and last change timestamp
         try:
             user.password = hashed_new_password
             user.last_password_change = datetime.utcnow()
 
-            # Add new password to history
             new_history_entry = PasswordHistory(user_id=user.id, password_hash=hashed_new_password)
             db.session.add(new_history_entry)
 
-            # Prune old history entries if count exceeds limit
             history_count = PasswordHistory.query.filter_by(user_id=user.id).count()
             if history_count > PASSWORD_HISTORY_COUNT:
                  oldest_histories = PasswordHistory.query.filter_by(user_id=user.id).order_by(PasswordHistory.created_at.asc()).limit(history_count - PASSWORD_HISTORY_COUNT).all()
@@ -570,7 +487,6 @@ def change_password():
 
         except Exception as e:
             db.session.rollback()
-            print(f"[ERROR] Failed to update password or history: {e}")
             flash('An error occurred while updating your password. Please try again.', 'danger')
 
     return render_template('change_password.html')
@@ -581,9 +497,7 @@ def log_event(user_id, event_type, description, ip_address, user_agent):
         db.session.add(log)
         db.session.commit()
     except Exception as e:
-        print(f"[ERROR] Failed to log security event: {e}")
         db.session.rollback()
 
-# 🏁 Run App
 if __name__ == '__main__':
     app.run(debug=True)

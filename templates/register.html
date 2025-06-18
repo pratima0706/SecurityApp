@@ -8,7 +8,6 @@
 </head>
 <body data-theme="light">
   
-  <!-- 🌗 Floating Theme Toggle -->
   <div class="floating-theme-toggle">
     <span id="theme-icon" style="font-size: 1.3rem; cursor: pointer;">🌞</span>
   </div>
@@ -17,7 +16,6 @@
     <div class="auth-card glassy">
       <h2>Create Your Account</h2>
       
-      <!-- Email Verification Notice -->
       <div id="verification-notice" class="verification-notice" style="background-color: #e3f2fd; border-left: 4px solid #2196F3; padding: 15px; margin-bottom: 20px; border-radius: 4px; display: none;">
         <h3 style="color: #1976D2; margin: 0 0 10px 0; font-size: 1.1em;">
           <i class="fas fa-info-circle" style="margin-right: 8px;"></i>Email Verification Required
@@ -29,26 +27,21 @@
 
       <form method="POST">
         
-        <!-- Username -->
         <div class="input-icon">
           <span>👤</span>
           <input type="text" name="username" placeholder="Username" required />
         </div>
 
-        <!-- Email -->
         <div class="input-icon">
           <span>📧</span>
           <input type="email" name="email" placeholder="Email" required />
         </div>
 
-        <!-- Password -->
         <div class="input-icon">
           <span>🔒</span>
           <input type="password" id="password" name="password" placeholder="Password" required autocomplete="new-password" />
-          
         </div>
 
-        <!-- Auto-Generated Password Suggestion Box -->
         <div id="suggestion-box" class="suggestion-box" style="display: none;">
           <div class="suggested-text" id="suggested-password">AbC!234x</div>
           <div class="popup-actions">
@@ -57,7 +50,6 @@
           </div>
         </div>
 
-        <!-- Password Strength Meter -->
         <div id="strength-section" style="display: none;">
           <div class="strength-meter">
             <div id="strength-bar-bg">
@@ -74,25 +66,20 @@
           </div>
         </div>
 
-        <!-- Confirm Password -->
         <div class="input-icon">
           <span>🔒</span>
           <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required />
-          </div>
+        </div>
 
-        <!-- Match Status -->
         <div id="match-status" class="match-feedback"></div>
 
-        <!-- CAPTCHA -->
         <div class="captcha-block">
           <img src="data:image/png;base64,{{ captcha_image }}" alt="CAPTCHA" class="captcha-img" id="captcha-img" onclick="refreshCaptcha()" title="Click to refresh">
           <input type="text" name="captcha" placeholder="Enter CAPTCHA" required />
         </div>
 
-        <!-- Register Button -->
         <button type="submit" class="btn full-btn" id="submit-btn" disabled>Register</button>
 
-        <!-- Flash Messages -->
       {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         {% for category, message in messages %}
@@ -101,16 +88,13 @@
       {% endif %}
     {% endwith %}
 
-        <!-- Login Link -->
         <p class="switch-auth">Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
       </form>
     </div>
   </div>
 
-  <!-- Scripts -->
   <script src="{{ url_for('static', filename='js/password.js') }}"></script>
   <script>
-    // 🌙 Theme Toggle with Icon Only
     const icon = document.getElementById('theme-icon');
     icon.addEventListener('click', () => {
       const mode = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
@@ -123,7 +107,6 @@
     document.body.setAttribute('data-theme', savedTheme);
     icon.textContent = savedTheme === 'dark' ? '🌙' : '🌞';
 
-    // CAPTCHA Refresh
     function refreshCaptcha() {
       fetch('/refresh_captcha')
         .then(res => res.json())
@@ -132,15 +115,12 @@
         });
     }
 
-    // Verification Notice Timer
     document.addEventListener('DOMContentLoaded', function() {
       const notice = document.getElementById('verification-notice');
       let timeLeft = 2;
 
-      // Show the notice
       notice.style.display = 'block';
 
-      // Start the timer
       const timer = setInterval(() => {
         timeLeft--;
         
