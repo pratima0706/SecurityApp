@@ -224,7 +224,7 @@ def register():
                 print(f"[DEBUG] User created successfully - ID: {user.id}")
 
                 db.session.add(PasswordHistory(user_id=user.id, password_hash=hashed))
-                # Prune old password history if exceeding limit (though not strictly necessary for first entry)
+                # Prune old password history if exceeding limit 
                 history_count = PasswordHistory.query.filter_by(user_id=user.id).count()
                 if history_count > PASSWORD_HISTORY_COUNT:
                      oldest_histories = PasswordHistory.query.filter_by(user_id=user.id).order_by(PasswordHistory.created_at.asc()).limit(history_count - PASSWORD_HISTORY_COUNT).all()

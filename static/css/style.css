@@ -81,7 +81,6 @@ body[data-theme="dark"] .glassy {
   box-sizing: border-box;
 }
 
-/* Positioning the icon inside the input field */
 .input-icon span {
   position: absolute;
   left: 12px;
@@ -91,7 +90,6 @@ body[data-theme="dark"] .glassy {
   pointer-events: none;
 }
 
-/* Eye icon for password toggle */
 .eye-icon {
   position: absolute;
   left: 38px;
@@ -103,7 +101,6 @@ body[data-theme="dark"] .glassy {
   pointer-events: auto;
 }
 
-/* Password input with two icons on the left */
 .input-icon input[type="text"],
 .input-icon input[type="email"] {
   padding-left: 38px;
@@ -123,7 +120,6 @@ body[data-theme="dark"] .glassy {
   display: block;
 }
 
-/* Input field styles */
 .input-icon input {
   width: 100%;
   padding: 10px 10px 10px 38px;
@@ -132,42 +128,35 @@ body[data-theme="dark"] .glassy {
   background: #fff;
 }
 
-/* Dark mode input styling */
 body[data-theme="dark"] .input-icon input {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid #444;
   color: #fff;
 }
 
-/* Show/hide password label */
 .show-pass-label {
   font-size: 0.85rem;
   display: inline-block;
   margin-left: 10px;
 }
 
-/* Strength meter container */
 .strength-meter {
   font-size: 0.9rem;
 }
 
-/* Bullet list of password rules */
 .strength-meter ul {
   padding-left: 20px;
   list-style: square;
 }
 
-/* Password rule passed */
 .valid {
   color: #4CAF50;
 }
 
-/* Password rule not met */
 .invalid {
   color: #bbb;
 }
 
-/* Captcha section: image + input */
 .captcha-block {
   display: flex;
   align-items: center;
@@ -175,7 +164,6 @@ body[data-theme="dark"] .input-icon input {
   margin: 15px 0;
 }
 
-/* Captcha image styling */
 .captcha-img {
   height: 50px;
   cursor: pointer;
@@ -326,7 +314,7 @@ input:checked + .slider:before {
   z-index: 999;
 }
 
-/* 🟣 Password Suggestion Box */
+/* Password Suggestion Box */
 .suggestion-box {
   margin: 10px 0;
   background: rgba(255, 255, 255, 0.95);
@@ -336,7 +324,7 @@ input:checked + .slider:before {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(38, 37, 37, 0.1);
   border: 1px solid #e0e0e0;
   position: relative;
   animation: slideDown 0.3s ease-out;
@@ -541,13 +529,13 @@ input:checked + .slider:before {
     cursor: pointer;
 }
 
-/* --- Home Page Dashboard Styles --- */
+/* Home Page Dashboard Styles */
 .dashboard-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    flex-wrap: wrap;
 }
 
 .welcome-section h1 {
@@ -567,32 +555,6 @@ input:checked + .slider:before {
     gap: 1rem;
 }
 
-.profile-link {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    text-decoration: none;
-    color: var(--text-light);
-    padding: 0.5rem;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-}
-
-body[data-theme="dark"] .profile-link {
-     color: var(--text-dark);
-}
-
-.profile-link:hover {
-    background: rgba(108, 99, 255, 0.1);
-}
-
-.profile-img {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
 .logout-btn {
     padding: 0.5rem 1rem;
     background: var(--primary-color);
@@ -606,7 +568,6 @@ body[data-theme="dark"] .profile-link {
 .logout-btn:hover {
     opacity: 0.9;
 }
-
 
 .dashboard-content {
     margin-top: 20px;
@@ -784,70 +745,70 @@ body[data-theme="dark"] .profile-link {
   min-width: 120px;
 }
 
-/* Add styles below for the new Home Page Card Grid */
+/* Home Page Card Grid */
 
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
-  gap: 20px; /* Space between cards */
-  padding: 20px; /* Padding around the grid */
-  max-width: 1200px; /* Max width for the grid container */
-  margin: 20px auto; /* Center the grid */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 20px auto;
 }
 
 .dashboard-card-item {
-  background: var(--card-bg-light); /* Use theme variable for background */
-  border-radius: 10px; /* Rounded corners */
-  padding: 20px; /* Inner padding */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  background: var(--card-bg-light);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  display: flex; /* Use flexbox for content alignment */
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
 .dashboard-card-item:hover {
-  transform: translateY(-5px); /* Lift effect on hover */
+  transform: translateY(-5px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .dashboard-card-item h3 {
   margin-top: 0;
-  color: var(--text-light); /* Use theme variable for text color */
+  color: var(--text-light);
 }
 
 .dashboard-card-item p {
   font-size: 0.95em;
-  color: #555; /* Default text color */
+  color: #555;
   margin-bottom: 15px;
 }
 
 body[data-theme="dark"] .dashboard-card-item {
-    background: var(--card-bg-dark); /* Dark theme card background */
-    color: var(--text-dark); /* Dark theme text */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Dark theme shadow */
+    background: var(--card-bg-dark);
+    color: var(--text-dark);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 body[data-theme="dark"] .dashboard-card-item h3 {
-    color: var(--text-dark); /* Ensure headings are visible in dark mode */
+    color: var(--text-dark);
 }
 
 body[data-theme="dark"] .dashboard-card-item p {
-    color: #ccc; /* Lighter text for readability in dark mode */
+    color: #ccc;
 }
 
 .dashboard-card-item .btn {
-    margin-top: auto; /* Push button to the bottom */
-    align-self: flex-start; /* Align button to the start */
+    margin-top: auto;
+    align-self: flex-start;
 }
 
 
-/* Add styles below for the new Profile Page Layout */
+/* Profile Page Layout */
 
 .profile-container-new {
     min-height: 100vh;
     background: var(--bg-light);
-    padding: 20px;
+    padding: 40px 20px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -863,7 +824,7 @@ body[data-theme="dark"] .profile-container-new {
     width: 100%;
     max-width: 400px;
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     position: relative;
 }
 
@@ -886,6 +847,7 @@ body[data-theme="dark"] .profile-header-new h2 {
     font-size: 1.2rem;
     padding: 10px;
     text-decoration: none;
+    margin: 30px; 
 }
 
 body[data-theme="dark"] .back-arrow {
@@ -895,45 +857,49 @@ body[data-theme="dark"] .back-arrow {
 /* Profile Picture Area */
 .profile-picture-area {
     position: relative;
-    width: 120px;
-    height: 120px;
-    margin: 0 auto 20px;
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 30px;
     cursor: pointer;
-    border-radius: 50%; /* Ensure circular clipping for the image */
-    overflow: hidden; /* Hide parts of the image outside the circle */
+    border-radius: 50%;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.profile-picture-area:hover {
+    transform: scale(1.03);
 }
 
 .profile-picture-area img {
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ensure the image covers the area without distortion */
+    object-fit: cover;
 }
 
 .profile-icon-large {
-    /* This class was likely used for the placeholder icon. We'll keep it but it might not be needed if an image is used */
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(108, 99, 255, 0.1); /* Placeholder background */
+    background: rgba(108, 99, 255, 0.15); 
     border-radius: 50%;
-    font-size: 3rem;
+    font-size: 3.5rem;
     color: var(--primary-color);
 }
 
 body[data-theme="dark"] .profile-icon-large {
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--text-dark);
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--accent-color);
 }
 
 .camera-icon-overlay {
     position: absolute;
-    bottom: 5px; /* Adjusted position */
-    right: 5px; /* Adjusted position */
-    width: 30px; /* Adjusted size */
-    height: 30px; /* Adjusted size */
+    bottom: 8px;
+    right: 8px;
+    width: 40px;
+    height: 40px;
     background: var(--primary-color);
     border-radius: 50%;
     display: flex;
@@ -941,46 +907,58 @@ body[data-theme="dark"] .profile-icon-large {
     justify-content: center;
     color: white;
     cursor: pointer;
-    transition: transform 0.3s ease;
-    z-index: 2; /* Ensure it's above the image */
+    transition: all 0.3s ease;
+    z-index: 2;
+    border: 3px solid var(--bg-light);
+}
+
+body[data-theme="dark"] .camera-icon-overlay {
+    background: var(--accent-color);
+    border: 3px solid var(--bg-dark);
 }
 
 .camera-icon-overlay:hover {
-    transform: scale(1.1);
+    transform: scale(1.15) rotate(5deg);
+    background: darken(var(--primary-color), 10%);
+}
+
+body[data-theme="dark"] .camera-icon-overlay:hover {
+    background: darken(var(--accent-color), 10%);
 }
 
 .camera-icon-overlay i {
-    font-size: 1rem; /* Adjusted size */
+    font-size: 1.2rem;
 }
 
 /* Profile Menu */
 .profile-menu {
     width: 100%;
     max-width: 400px;
-    background: var(--card-bg-light); /* Use theme variable */
-    border-radius: 12px; /* Match image */
+    background: var(--card-bg-light);
+    border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Subtle shadow */
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    margin-top: 20px;
 }
 
 body[data-theme="dark"] .profile-menu {
-    background: var(--card-bg-dark); /* Use theme variable */
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2); /* Subtle shadow for dark theme */
+    background: var(--card-bg-dark);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
 }
 
 .menu-item {
     display: flex;
     align-items: center;
-    padding: 16px 20px; /* Adjust padding to match image spacing */
+    padding: 18px 25px;
     text-decoration: none;
-    color: var(--text-light); /* Use theme variable */
-    border-bottom: 1px solid rgba(0,0,0,0.1); /* Subtle separator */
-    transition: background-color 0.3s ease;
+    color: var(--text-light);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 body[data-theme="dark"] .menu-item {
-     color: var(--text-dark); /* Use theme variable */
-     border-bottom-color: rgba(255,255,255,0.1); /* Subtle separator for dark theme */
+     color: var(--text-dark);
+     border-bottom-color: rgba(255,255,255,0.12);
 }
 
 .menu-item:last-child {
@@ -988,42 +966,39 @@ body[data-theme="dark"] .menu-item {
 }
 
 .menu-item:hover {
-    background: rgba(108, 99, 255, 0.05); /* Lighter hover effect */
+    background: rgba(108, 99, 255, 0.08);
+    transform: translateX(5px);
 }
 
 body[data-theme="dark"] .menu-item:hover {
-    background: rgba(255,255,255,0.05); /* Lighter hover effect for dark theme */
+    background: rgba(255,255,255,0.08);
 }
 
 .menu-icon {
-    width: 24px; /* Icon size */
-    margin-right: 15px; /* Space between icon and text */
-    color: var(--primary-color); /* Icon color */
-    text-align: center; /* Center icon if needed */
+    width: 30px;
+    margin-right: 20px;
+    color: var(--primary-color);
+    font-size: 1.3rem;
 }
 
 body[data-theme="dark"] .menu-icon {
-     color: var(--text-dark); /* Icon color for dark theme */
+     color: var(--accent-color);
 }
 
 .menu-text {
     flex: 1;
-    font-size: 1rem;
+    font-size: 1.05rem;
+    font-weight: 500;
 }
 
 .menu-arrow {
-    color: #999; /* Arrow color */
-    font-size: 0.9rem;
+    color: #bbb;
+    font-size: 1rem;
 }
 
 body[data-theme="dark"] .menu-arrow {
-     color: #666; /* Arrow color for dark theme */
+     color: #888;
 }
-
-/* Style for the new Change Password menu item */
-/* .menu-item.change-password-item .menu-icon { */
-    /* Add specific icon style if needed, e.g., a lock icon */
-/* } */
 
 /* Theme Toggle */
 .theme-toggle.icon-only {
@@ -1050,17 +1025,16 @@ body[data-theme="dark"] .theme-toggle.icon-only {
 /* Image Upload Options */
 .image-upload-options {
   position: absolute;
-  /* Positioning relative to the profile-picture-area */
-  bottom: -10px; /* Adjusted to be slightly below the camera icon */
-  right: -10px; /* Adjusted to be slightly to the right of the camera icon */
-  transform: translateY(100%); /* Ensure it drops down from the camera icon */
+  bottom: -10px;
+  right: -10px;
+  transform: translateY(100%);
   background: var(--card-bg-light);
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
   padding: 10px;
-  display: none; /* Hidden by default */
+  display: none;
   z-index: 1000;
-  width: 180px; /* Adjusted width as needed */
+  width: 180px;
   transition: all 0.3s ease-out;
   transform-origin: top right;
 }
@@ -1072,17 +1046,17 @@ body[data-theme="dark"] .image-upload-options {
 
 .image-upload-options.show {
   display: block;
-  transform: translateY(0%); /* Show when active */
-  bottom: 0; /* Align to bottom of profile-picture-area */
-  right: 0; /* Align to right of profile-picture-area */
+  transform: translateY(0%);
+  bottom: 0;
+  right: 0;
 }
 
 .image-upload-options button {
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 8px 10px; /* Adjusted padding */
-  margin: 3px 0; /* Adjusted margin */
+  padding: 8px 10px;
+  margin: 3px 0;
   border: none;
   background: none;
   color: var(--text-light);
@@ -1101,7 +1075,7 @@ body[data-theme="dark"] .image-upload-options button {
 }
 
 .image-upload-options button i {
-  margin-right: 8px; /* Adjusted margin */
+  margin-right: 8px;
   color: var(--primary-color);
 }
 
@@ -1112,7 +1086,7 @@ body[data-theme="dark"] .image-upload-options button {
 
 /* Adjust the main content padding to not be hidden by the fixed navbar */
 .home-container .dashboard-grid {
-    padding-top: 20px; /* Add space above the grid */
+    padding-top: 20px;
 }
 
 /* Top Navigation Bar Styles */
@@ -1121,8 +1095,9 @@ body[data-theme="dark"] .image-upload-options button {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background: var(--card-bg-light);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   position: fixed;
   top: 0;
   left: 0;
@@ -1131,8 +1106,8 @@ body[data-theme="dark"] .image-upload-options button {
 }
 
 body[data-theme="dark"] .top-navbar {
-  background: var(--card-bg-dark);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  background: rgba(16, 24, 32, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .navbar-left {
@@ -1167,7 +1142,7 @@ body[data-theme="dark"] .navbar-title {
   text-decoration: none;
   font-weight: 500;
   padding: 0.5rem 1rem;
-  border-radius: 4px;
+  border-radius: 6px;
   transition: all 0.3s ease;
 }
 
@@ -1177,6 +1152,12 @@ body[data-theme="dark"] .navbar-links a {
 
 .navbar-links a:hover {
   background: rgba(108, 99, 255, 0.1);
+  color: var(--primary-color);
+}
+
+body[data-theme="dark"] .navbar-links a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--accent-color);
 }
 
 .navbar-right {
@@ -1193,55 +1174,28 @@ body[data-theme="dark"] .navbar-links a {
 .user-controls {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .theme-toggle {
-  cursor: pointer;
-  padding: 0.5rem;
+  padding: 8px;
   border-radius: 50%;
-  transition: background-color 0.3s ease;
-}
-
-.theme-toggle:hover {
-  background: rgba(108, 99, 255, 0.1);
-}
-
-.profile-link {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  text-decoration: none;
-  color: var(--text-light);
-  padding: 0.5rem;
-  border-radius: 4px;
+  background: rgba(108, 99, 255, 0.05);
+  cursor: pointer;
   transition: all 0.3s ease;
 }
 
-body[data-theme="dark"] .profile-link {
-  color: var(--text-dark);
+.theme-toggle:hover {
+  background: rgba(108, 99, 255, 0.15);
+  transform: scale(1.05);
 }
 
-.profile-link:hover {
-  background: rgba(108, 99, 255, 0.1);
+body[data-theme="dark"] .theme-toggle {
+  background: rgba(255, 255, 255, 0.05);
 }
 
-.profile-icon {
-  font-size: 1.2rem;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(108, 99, 255, 0.1);
-  border-radius: 50%;
-  color: var(--primary-color);
-  line-height: 1; /* Add this to ensure vertical centering */
-}
-
-body[data-theme="dark"] .profile-icon {
+body[data-theme="dark"] .theme-toggle:hover {
   background: rgba(255, 255, 255, 0.1);
-  color: var(--text-dark);
 }
 
 .logout-btn {
@@ -1284,20 +1238,20 @@ body[data-theme="dark"] .profile-icon {
 
 .change-password-page .strength-meter {
     opacity: 0;
-    visibility: hidden; /* Ensure it's hidden initially */
-    max-height: 0; /* Initially hidden height */
-    overflow: hidden; /* Hide overflow during transition */
-    transition: opacity 0.3s ease-in-out, max-height 0.3s ease-in-out, padding 0.3s ease-in-out; /* Add transitions for max-height and padding */
-    padding-top: 0; /* Remove padding when hidden */
-    padding-bottom: 0; /* Remove padding when hidden */
+    visibility: hidden;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.3s ease-in-out, max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 .change-password-page .strength-meter.visible {
-    opacity: 1 !important; /* Use !important for troubleshooting */
-    visibility: visible !important; /* Use !important for troubleshooting */
-    max-height: 150px !important; /* Use !important for troubleshooting */
-    padding-top: 10px; /* Restore original padding or adjust as needed */
-    padding-bottom: 10px; /* Restore original padding or adjust as needed */
+    opacity: 1 !important;
+    visibility: visible !important;
+    max-height: 150px !important;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 /* Align lock icons in input fields */
@@ -1306,10 +1260,222 @@ body[data-theme="dark"] .profile-icon {
     left: 12px;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 2; /* Ensure icon is above input */
-    color: #888; /* Match the color of other icons if desired, or use a theme variable */
+    z-index: 2;
+    color: #888;
 }
 
 body[data-theme="dark"] .input-icon .icon-left {
-    color: #aaa; /* Adjust color for dark theme if needed */
+    color: #aaa;
+}
+
+/* Security Logs Page Styles */
+.logs-container {
+    margin-top: 20px;
+}
+
+.logs-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 20px;
+    background: var(--card-bg-light);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+body[data-theme="dark"] .logs-table {
+    background: var(--card-bg-dark);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.logs-table thead {
+    background: var(--primary-color);
+    color: white;
+}
+
+body[data-theme="dark"] .logs-table thead {
+    background: var(--accent-color);
+}
+
+.logs-table th {
+    padding: 15px 20px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.logs-table td {
+    padding: 12px 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+body[data-theme="dark"] .logs-table td {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.logs-table tr:last-child td {
+    border-bottom: none;
+}
+
+.logs-table tbody tr:hover {
+    background-color: rgba(108, 99, 255, 0.05);
+    transition: background-color 0.2s ease;
+}
+
+body[data-theme="dark"] .logs-table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.no-logs {
+    text-align: center;
+    padding: 30px;
+    font-size: 1.1rem;
+    color: #888;
+}
+
+body[data-theme="dark"] .no-logs {
+    color: #aaa;
+}
+
+/* Adjust dashboard-card for logs page to be wider */
+.container .dashboard-card {
+    max-width: 900px;
+    padding: 30px;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.dashboard-header h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.container {
+    padding: 40px 20px;
+}
+
+/* Enhanced Onboarding Page Styles */
+.onboarding-card {
+    text-align: center;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.onboarding-card h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeInDown 0.8s ease-out;
+}
+
+.onboarding-card p {
+    font-size: 1.2rem;
+    color: var(--text-light);
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+body[data-theme="dark"] .onboarding-card p {
+    color: var(--text-dark);
+}
+
+.security-shield {
+    width: 200px;
+    height: 200px;
+    margin: 2rem auto;
+    position: relative;
+    animation: float 6s ease-in-out infinite;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+    transition: transform 0.3s ease;
+}
+
+.security-shield:hover {
+    transform: scale(1.05) rotate(5deg);
+}
+
+body[data-theme="dark"] .security-shield {
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.4));
+}
+
+.onboarding-card .btn {
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #6c63ff, #00bcd4);
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: fadeInUp 1s ease-out;
+    position: relative;
+    overflow: hidden;
+    margin-top: 4rem;
+    box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+}
+
+.onboarding-card .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(108, 99, 255, 0.4);
+    background: linear-gradient(135deg, #5a52e0, #00a3b8);
+}
+
+.onboarding-card .btn:active {
+    transform: translateY(0);
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .onboarding-card {
+        padding: 30px 20px;
+    }
+    
+    .onboarding-card h1 {
+        font-size: 2rem;
+    }
+    
+    .security-shield {
+        width: 150px;
+        height: 150px;
+    }
 }
