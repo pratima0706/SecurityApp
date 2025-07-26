@@ -2,7 +2,6 @@ Project Title:
 ---------------
 Secure Registration and Login System Prototype 
 --------------------------------------------------------------
-
 Project Description:
 --------------------
 This project is a secure web-based prototype system that demonstrates 
@@ -18,7 +17,6 @@ The application is built using:
 - Bcrypt for secure password hashing
 - Custom CAPTCHA and Google reCAPTCHA v2 for bot protection
 - Flask extensions for session management and email verification
-
 --------------------------------------------------------------
 
 Key Features:
@@ -36,7 +34,7 @@ Key Features:
 ✅ Responsive, User-friendly UI  
 ✅ Light/Dark Theme Toggle  
 ✅ Auto-Generated Password Suggestions  
-
+✅ Two Factor-Authentication (2FA)
 --------------------------------------------------------------
 
 How to Run the System:
@@ -92,4 +90,4 @@ Known Limitations:
 - Currently using SMTP with app password for email; in production, a more secure email service should be used.
 
 --------------------------------------------------------------
-
+@copyrights belongs to Pratima Neupane
