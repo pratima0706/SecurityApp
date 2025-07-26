@@ -82,12 +82,12 @@ Security Principles Applied:
 - CSRF protection on all forms
 - Secure session handling using Flask-Login
 - Email verification to validate user identity
+- Two-Factor Authentication (2FA) with option to on or not 
 
 --------------------------------------------------------------
 
 Known Limitations:
 ------------------
-- Two-Factor Authentication (2FA) not yet implemented.
 - Rate limiting is basic and session-based; production systems should use IP-based and more advanced throttling (e.g., Flask-Limiter).
 - Currently using SMTP with app password for email; in production, a more secure email service should be used.
 
